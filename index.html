@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mihin Merchant — Unity Developer specialising in real-time multiplayer networking and complex game logic." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body id="top">
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a id="nav-name" class="nav-name" href="#top"></a>
+      <div id="nav-links" class="nav-links"></div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1 id="hero-role" class="hero-role"></h1>
+      <p id="hero-sub" class="hero-sub"></p>
+      <span id="hero-location" class="hero-location"></span>
+      <div id="hero-buttons" class="btn-row"></div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="container">
+      <h2 id="about-heading"></h2>
+      <div id="about-text" class="about-text"></div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <h2 id="skills-heading"></h2>
+      <div id="skills-groups"></div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <h2 id="experience-heading"></h2>
+      <div id="experience-jobs"></div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <h2 id="projects-heading"></h2>
+
+      <p id="group-a-label" class="group-label"></p>
+      <p id="group-a-note" class="group-note"></p>
+      <div id="group-a-cards" class="cards"></div>
+
+      <p id="group-b-label" class="group-label"></p>
+      <p id="group-b-note" class="group-note"></p>
+      <div id="group-b-cards" class="cards"></div>
+
+      <div class="systems">
+        <h3>How the systems work</h3>
+        <div class="systems-grid">
+          <figure class="diagram">
+            <svg viewBox="0 0 340 200" role="img" aria-label="Diagram: migration from Photon PUN to Socket.IO">
+              <text x="12" y="18" class="d-sub">BEFORE — PHOTON PUN</text>
+              <rect x="12" y="28" width="90" height="34" class="d-box" />
+              <text x="57" y="49" text-anchor="middle" class="d-label">Client A</text>
+              <rect x="125" y="28" width="90" height="34" class="d-box" />
+              <text x="170" y="49" text-anchor="middle" class="d-label">Client B</text>
+              <rect x="234" y="22" width="98" height="46" class="d-box" />
+              <text x="283" y="42" text-anchor="middle" class="d-label">Photon Cloud</text>
+              <text x="283" y="57" text-anchor="middle" class="d-sub">state hosted remotely</text>
+              <line x1="104" y1="45" x2="121" y2="45" class="d-arrow" />
+              <line x1="217" y1="45" x2="234" y2="45" class="d-arrow" />
+              <text x="12" y="112" class="d-sub">AFTER — SOCKET.IO</text>
+              <rect x="12" y="122" width="90" height="34" class="d-box" />
+              <text x="57" y="143" text-anchor="middle" class="d-label">Client A</text>
+              <rect x="125" y="122" width="90" height="34" class="d-box" />
+              <text x="170" y="143" text-anchor="middle" class="d-label">Client B</text>
+              <rect x="234" y="116" width="98" height="46" class="d-box" />
+              <text x="283" y="136" text-anchor="middle" class="d-label">Socket.IO server</text>
+              <text x="283" y="151" text-anchor="middle" class="d-sub">authoritative state</text>
+              <line x1="104" y1="139" x2="121" y2="139" class="d-arrow" />
+              <line x1="121" y1="146" x2="104" y2="146" class="d-arrow" />
+              <line x1="217" y1="139" x2="234" y2="139" class="d-arrow" />
+              <line x1="234" y1="146" x2="217" y2="146" class="d-arrow" />
+              <text x="12" y="186" class="d-sub">migration led by Mihin — real-time comms for a multi-game APK</text>
+            </svg>
+            <figcaption>Photon PUN → Socket.IO: where state authority moved.</figcaption>
+          </figure>
+
+          <figure class="diagram">
+            <svg viewBox="0 0 340 200" role="img" aria-label="Diagram: client-side state synchronisation loop">
+              <rect x="12" y="14" width="76" height="30" class="d-box" />
+              <text x="50" y="33" text-anchor="middle" class="d-label">Input</text>
+              <rect x="120" y="14" width="90" height="30" class="d-box" />
+              <text x="165" y="33" text-anchor="middle" class="d-label">Event emitted</text>
+              <rect x="242" y="14" width="86" height="30" class="d-box" />
+              <text x="285" y="33" text-anchor="middle" class="d-label">Socket.IO room</text>
+              <line x1="88" y1="29" x2="116" y2="29" class="d-arrow" />
+              <line x1="210" y1="29" x2="238" y2="29" class="d-arrow" />
+              <rect x="242" y="76" width="86" height="30" class="d-box" />
+              <text x="285" y="95" text-anchor="middle" class="d-label">Broadcast</text>
+              <line x1="285" y1="44" x2="285" y2="72" class="d-arrow" />
+              <rect x="120" y="138" width="120" height="30" class="d-box" />
+              <text x="180" y="157" text-anchor="middle" class="d-label">Interpolated state</text>
+              <line x1="242" y1="91" x2="240" y2="140" class="d-arrow" />
+              <rect x="12" y="138" width="76" height="30" class="d-box" />
+              <text x="50" y="157" text-anchor="middle" class="d-label">UI</text>
+              <line x1="116" y1="153" x2="92" y2="153" class="d-arrow" />
+              <rect x="120" y="76" width="90" height="30" class="d-box" />
+              <text x="165" y="95" text-anchor="middle" class="d-label">Local state</text>
+              <line x1="165" y1="106" x2="165" y2="134" class="d-arrow" />
+              <rect x="12" y="76" width="90" height="30" class="d-box" />
+              <text x="57" y="90" text-anchor="middle" class="d-sub">on disconnect:</text>
+              <text x="57" y="101" text-anchor="middle" class="d-sub">host migration</text>
+            </svg>
+            <figcaption>Client-side state sync loop, with host migration on disconnect.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2 id="contact-heading"></h2>
+      <p id="contact-line" class="muted" style="margin-bottom: 24px;"></p>
+      <div id="contact-lines" class="contact-lines"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© <span id="footer-year"></span> Mihin Merchant · <span id="footer-line"></span></span>
+      <span><a id="footer-mail" href="#"></a> · <a id="footer-linkedin" href="#" target="_blank" rel="noopener"></a></span>
+    </div>
+  </footer>
+
+  <noscript>
+    <div class="container" style="padding: 24px 0;">
+      <p><strong>Mihin Merchant</strong> — Unity Developer specialising in real-time multiplayer networking and complex game logic. Based in India.</p>
+      <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a> · Phone: <a href="tel:+910000000000">+91 00000 00000</a> · <a href="https://www.linkedin.com/in/your-profile">LinkedIn</a></p>
+      <p>Enable JavaScript to see the full portfolio.</p>
+    </div>
+  </noscript>
+
+  <script src="js/content.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

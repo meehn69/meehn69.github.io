@@ -1,0 +1,9 @@
+# Private/local-only material — never commit (per PORTFOLIO_PLAN.md §gitignore)
+New_Resume_Template.pdf
+New_Resume_Template.docx
+New_Resume_Template_backup.docx
+PORTFOLIO_PLAN.md
+tools-roster.md
+samples/
+.zcode/
+notes/

@@ -1,0 +1,367 @@
+/* ============================================================
+   PORTFOLIO STYLES — two themes, one layout.
+   Theme C (arcade-professional) is the default set below.
+   Theme B (clean minimal) overrides via html[data-theme="b"].
+   All colors/spacing come from the -- tokens; components only
+   reference tokens, so a theme change never touches markup.
+   ============================================================ */
+
+/* ---------- Theme C: arcade professional (default) ---------- */
+:root,
+html[data-theme="c"] {
+  --bg: #12142a;
+  --bg-soft: #171a36;
+  --surface: #1c1f3d;
+  --surface-2: #232750;
+  --ink: #eef0ff;
+  --muted: #9aa3c7;
+  --accent: #ffd447;
+  --accent-ink: #191a2e;
+  --accent-2: #4ef0c0;
+  --border: #34386b;
+  --shadow: 5px 5px 0 rgba(0, 0, 0, 0.55);
+  --radius: 10px;
+  --border-w: 2px;
+  --heading-transform: uppercase;
+  --heading-spacing: 0.08em;
+  --nav-bg: rgba(18, 20, 42, 0.88);
+  --diagram-line: #4ef0c0;
+  --diagram-box: #232750;
+  --diagram-ink: #eef0ff;
+  --diagram-accent: #ffd447;
+}
+
+/* ---------- Theme B: clean minimal professional ---------- */
+html[data-theme="b"] {
+  --bg: #fbfbf9;
+  --bg-soft: #f3f3ef;
+  --surface: #ffffff;
+  --surface-2: #f7f7f4;
+  --ink: #191c24;
+  --muted: #5b6270;
+  --accent: #2456e6;
+  --accent-ink: #ffffff;
+  --accent-2: #0e7c66;
+  --border: #e4e5ea;
+  --shadow: 0 2px 12px rgba(20, 24, 40, 0.07);
+  --radius: 12px;
+  --border-w: 1px;
+  --heading-transform: none;
+  --heading-spacing: normal;
+  --nav-bg: rgba(251, 251, 249, 0.9);
+  --diagram-line: #2456e6;
+  --diagram-box: #eef1fb;
+  --diagram-ink: #191c24;
+  --diagram-accent: #0e7c66;
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+section { padding: 84px 0; }
+section:nth-of-type(even) { background: var(--bg-soft); }
+
+h1, h2, h3 {
+  font-weight: 700;
+  text-transform: var(--heading-transform);
+  letter-spacing: var(--heading-spacing);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: 1.7rem;
+  margin-bottom: 28px;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.muted { color: var(--muted); }
+
+/* ---------- Nav ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--nav-bg);
+  backdrop-filter: blur(8px);
+  border-bottom: var(--border-w) solid var(--border);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 60px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.nav-name { font-weight: 700; font-size: 1.05rem; color: var(--ink); }
+.nav-name:hover { text-decoration: none; }
+
+.nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.nav-links a {
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.nav-links a:hover { color: var(--ink); text-decoration: none; background: var(--surface-2); }
+.nav-links a.active { color: var(--accent); }
+
+/* ---------- Hero ---------- */
+.hero { padding: 110px 0 90px; }
+
+.hero-role {
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  text-transform: none;
+  letter-spacing: normal;
+  margin-bottom: 14px;
+  max-width: 34ch;
+}
+
+.hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 52ch; margin-bottom: 26px; }
+
+.hero-location {
+  display: inline-block;
+  margin-bottom: 30px;
+  padding: 4px 12px;
+  border: var(--border-w) solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-block;
+  padding: 12px 26px;
+  border-radius: var(--radius);
+  border: var(--border-w) solid var(--ink);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.btn-primary:hover {
+  text-decoration: none;
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.55);
+}
+
+html[data-theme="b"] .btn-primary:hover { box-shadow: 0 6px 18px rgba(20, 24, 40, 0.18); }
+
+.btn-secondary { background: transparent; color: var(--ink); }
+.btn-secondary:hover { text-decoration: none; background: var(--surface-2); }
+
+/* ---------- About ---------- */
+.about-text p { max-width: 68ch; margin-bottom: 16px; }
+
+/* ---------- Skills ---------- */
+.skill-group { margin-bottom: 26px; }
+
+.skill-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.skill-group.secondary .skill-label::after {
+  content: " — fully my own work";
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+  color: var(--accent-2);
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.chip {
+  display: inline-block;
+  padding: 7px 14px;
+  background: var(--surface);
+  border: var(--border-w) solid var(--border);
+  border-radius: 999px;
+  font-size: 0.92rem;
+}
+
+.skill-group.secondary .chip { font-size: 0.88rem; opacity: 0.92; }
+
+/* ---------- Experience ---------- */
+.job {
+  background: var(--surface);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 28px;
+  margin-bottom: 22px;
+}
+
+.job-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.job-studio { font-size: 1.15rem; }
+.job-period { color: var(--muted); font-size: 0.95rem; white-space: nowrap; }
+.job-role { color: var(--accent); font-weight: 600; margin-bottom: 14px; }
+
+.job ul { list-style: none; }
+.job li {
+  padding-left: 22px;
+  position: relative;
+  margin-bottom: 9px;
+  font-size: 0.98rem;
+}
+
+.job li::before {
+  content: "▸";
+  position: absolute;
+  left: 2px;
+  color: var(--accent-2);
+}
+
+/* ---------- Projects ---------- */
+.group-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 34px 0 6px;
+  color: var(--accent);
+}
+
+.group-note { color: var(--muted); font-size: 0.92rem; margin-bottom: 18px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.card-title { font-size: 1.08rem; margin-bottom: 2px; }
+.card-org { color: var(--accent-2); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.card-what { font-size: 0.95rem; margin-bottom: 12px; }
+
+.card-role {
+  font-size: 0.88rem;
+  color: var(--muted);
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+  margin-top: auto;
+}
+
+.card-role strong { color: var(--ink); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 4px; }
+
+.card-caption { font-size: 0.82rem; color: var(--muted); margin-top: 10px; font-style: italic; }
+
+.card-links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+.card-links a { font-size: 0.92rem; font-weight: 600; }
+
+.card-image {
+  width: 100%;
+  border-radius: calc(var(--radius) - 4px);
+  border: var(--border-w) solid var(--border);
+  margin-bottom: 14px;
+  display: block;
+}
+
+/* ---------- Systems diagrams ---------- */
+.systems { margin-top: 48px; }
+.systems h3 { font-size: 1.2rem; margin-bottom: 18px; }
+.systems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+
+.diagram {
+  background: var(--surface);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.diagram figcaption { font-size: 0.88rem; color: var(--muted); margin-top: 10px; text-align: center; }
+.diagram svg { width: 100%; height: auto; display: block; }
+
+.d-box { fill: var(--diagram-box); stroke: var(--diagram-line); stroke-width: 1.5; rx: 6; }
+.d-label { fill: var(--diagram-ink); font-size: 13px; font-family: inherit; }
+.d-sub { fill: var(--diagram-line); font-size: 10.5px; }
+.d-arrow { stroke: var(--diagram-line); stroke-width: 1.5; fill: none; marker-end: url(#d-head); }
+.d-accent { fill: var(--diagram-accent); }
+
+/* ---------- Contact ---------- */
+.contact-lines { display: flex; flex-direction: column; gap: 14px; max-width: 560px; }
+
+.contact-item {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  background: var(--surface);
+  border: var(--border-w) solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+}
+
+.contact-item .k { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); min-width: 82px; }
+.contact-item .v { font-size: 1.02rem; font-weight: 600; word-break: break-word; }
+
+/* ---------- Footer ---------- */
+.footer {
+  border-top: var(--border-w) solid var(--border);
+  padding: 30px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer-inner { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- Scroll reveal ---------- */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn, .card { transition: none; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  section { padding: 60px 0; }
+  .hero { padding: 70px 0 56px; }
+  .container { padding: 0 18px; }
+  .job { padding: 20px; }
+  .nav-inner { justify-content: center; }
+}
