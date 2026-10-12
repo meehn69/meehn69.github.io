@@ -1,8 +1,10 @@
 /* ============================================================
    SITE CONTENT — edit this file to update the website.
-   One object per section; main.js renders it into the page.
-   To add a project or job: copy an existing object and change
-   the text. To retire content: delete its object. That is all.
+   main.js renders every section from this data; index.html has
+   section shells only. Add a project/job/chip/patch-note by
+   copying an object and changing the text; retire one by
+   deleting its object. Every array renders N items — nothing
+   is hard-coded to a count. That is all.
    ============================================================ */
 
 const SITE = {
@@ -15,81 +17,138 @@ const SITE = {
 
   nav: [
     { label: "About", target: "about" },
-    { label: "Skills", target: "skills" },
     { label: "Experience", target: "experience" },
     { label: "Projects", target: "projects" },
     { label: "Contact", target: "contact" },
   ],
 
+  gate: {
+    cabinet: "MIHIN-8",
+    bootLines: [
+      "MIHIN-8 BIOS v3.2",
+      "MEMORY 64K … OK",
+      "CARTRIDGE … FOUND",
+      "LOADING PORTFOLIO … READY",
+    ],
+    title: "MIHIN MERCHANT",
+    pressStart: "PRESS START",
+    insertCoin: "INSERT COIN",
+    skip: "SKIP",
+  },
+
   hero: {
     name: "Mihin Merchant",
-    role: "Unity Developer specialising in real-time multiplayer networking and complex game logic.",
-    sub: "I design and build online multiplayer games in Unity — from gameplay and UI to the systems that keep players connected.",
-    location: "Based in India.",
+    badge: "3+ YEARS · 10+ SHIPPED TITLES",
+    roleParts: ["UNITY DEVELOPER", "REAL-TIME MULTIPLAYER", "SURAT, INDIA"],
+    sub: "I build online multiplayer games in Unity — the gameplay, the UI, and the netcode that keeps players connected on real-world networks.",
     buttons: [
-      { label: "Email me", href: "mailto:your.email@example.com" },
-      { label: "LinkedIn", href: "https://www.linkedin.com/in/your-profile", external: true },
+      { label: "VIEW PROJECTS", href: "#projects" },
+      { label: "EMAIL ME", href: "mailto:your.email@example.com" },
+    ],
+    tokens: [
+      { label: "C#", style: "cart" },
+      { label: "SOCKET.IO", style: "cart" },
+      { label: "FIREBASE", style: "cart" },
+      { label: "MULTIPLAYER", style: "cart" },
+      { label: "3+ YRS", style: "coin" },
+      { label: "10+ SHIPPED", style: "coin" },
+    ],
+  },
+
+  marquee: {
+    items: [
+      { label: "LUDO", glyph: "dice-six-faces-five" },
+      { label: "RUMMY", glyph: "card-random" },
+      { label: "TEEN PATTI", glyph: "card-ace-hearts" },
+      { label: "8-BALL POOL", glyph: "eight-ball" },
+      { label: "CHESS", glyph: "chess-knight" },
+      { label: "CARROM", glyph: "target-arrows" },
+      { label: "DRAGON TIGER", glyph: "dragon-head" },
+      { label: "TAMBOLA", glyph: "ticket" },
+      { label: "JHANDI MUNDA", glyph: "dice-six-faces-one" },
     ],
   },
 
   about: {
-    heading: "About",
-    paragraphs: [
-      "I am a Unity developer specialising in real-time multiplayer games and state-synchronisation problem-solving, and I leverage AI-assisted tools to deliver robust games faster.",
-      "Across three studios over 3+ years I have shipped and maintained online Ludo, Rummy, Teen Patti, Pool, Carrom, Chess, Dragon Tiger, Tambola and Jhandi Munda titles — real games, played by real players, on unstable real-world networks.",
-      "Honest credit: studio titles were built by teams I worked in. Within them, the systems I personally owned end to end were the client-side multiplayer (Socket.IO), Google sign-in, payment gateway integration and Firebase integration.",
+    heading: "ABOUT",
+    lines: [
+      "Unity developer for real-time multiplayer games. Three studios, three-plus years, ten shipped titles — Ludo to Dragon Tiger — all played by real players on unstable networks.",
+    ],
+    bullets: [
+      "Socket.IO client multiplayer: state sync, rooms, host migration",
+      "Photon PUN architecture and the PUN→Socket.IO migration",
+      "Firebase, Google sign-in, CashFree payments (KYC, UPI)",
+      "Bot AI and RNG calibration for real-money play",
+      "AI-assisted tooling to ship faster without losing rigor",
+    ],
+  },
+
+  playerCard: {
+    heading: "PLAYER PROFILE",
+    level: { label: "LEVEL", value: 3, suffix: "+" },
+    studios: { label: "STUDIOS CLEARED", value: 3, suffix: "" },
+    titles: { label: "TITLES SHIPPED", value: 10, suffix: "+" },
+    quest: { label: "CURRENT QUEST", value: "REAL-TIME MULTIPLAYER" },
+    interests: [
+      { label: "NETCODE", icon: "network" },
+      { label: "GAME FEEL", icon: "gamepad-2" },
+      { label: "SHIPPED SOFTWARE", icon: "rocket" },
+      { label: "AI-ASSISTED TOOLING", icon: "sparkles" },
     ],
   },
 
   skills: {
-    heading: "Skills",
+    heading: "SKILLS",
     groups: [
       {
         label: "Core",
+        core: true,
         tags: [
-          "C# (LINQ, delegates, custom event handling)",
-          "Unity 2D/3D",
-          "Unity UI & Event Systems",
-          "DOTween",
-          "Scriptable Objects (data-driven architecture)",
+          { label: "C# (LINQ, delegates, custom events)", proof: "6+ shipped codebases" },
+          { label: "Unity 2D/3D", proof: "Shipped studio and personal titles" },
+          { label: "Unity UI & Event Systems", proof: "Full suite reskins, Teen Patti" },
+          { label: "DOTween", proof: "Tweens, pops and game-feel polish" },
+          { label: "Scriptable Objects (data-driven design)", proof: "This very site runs on data" },
         ],
       },
       {
         label: "Multiplayer & networking",
+        core: false,
         tags: [
-          "Socket.IO (real-time events, room management)",
-          "Mirror Networking",
-          "Photon PUN (architecture & migration)",
-          "State synchronisation (host migration, pause/resume, turn routing)",
-          "Real-time physics sync",
-          "Turn-based systems",
+          { label: "Socket.IO", proof: "Led the PUN→Socket.IO migration" },
+          { label: "Photon PUN (architecture & migration)", proof: "Multiple shipped Ludo titles" },
+          { label: "Mirror Networking", proof: "Host-authority sync patterns" },
+          { label: "State synchronisation", proof: "Host migration, pause/resume, turn routing" },
+          { label: "Networked physics synchronisation", proof: "Pool and Carrom on unstable links" },
+          { label: "Turn-based systems", proof: "Cards, Ludo, Tambola — shipped" },
         ],
       },
       {
         label: "Game systems & algorithms",
+        core: false,
         tags: [
-          "Algorithm design (sequence/pair detection, randomised ticket generation, RNG)",
-          "Bot AI & difficulty calibration (weighted probabilities)",
-          "Real-money game mechanics (cash-flow optimisation)",
-          "Physics & collision detection",
+          { label: "Randomisation & pattern matching", proof: "Tambola tickets, Rummy sequences" },
+          { label: "Bot AI & difficulty calibration", proof: "Weighted probabilities, dice RNG" },
+          { label: "Physics & collision detection", proof: "Bubble cascades, 8-Ball trajectories" },
         ],
       },
       {
         label: "Backend & integrations",
+        core: false,
         tags: [
-          "Firebase integration",
-          "Node.js API collaboration",
-          "CashFree payment gateway (KYC, UPI flows)",
-          "Google sign-in integration",
+          { label: "Firebase integration", proof: "Auth + live data on shipped suites" },
+          { label: "Node.js API collaboration", proof: "Multiplayer services across titles" },
+          { label: "CashFree payment gateway (KYC, UPI flows)", proof: "Debugged live payment flows" },
+          { label: "Google sign-in integration", proof: "Auth on real-money-ready builds" },
         ],
-        secondary: true,
       },
     ],
   },
 
   experience: {
-    heading: "Experience",
-    intro: "Three studios, one card each — the career in reverse order.",
+    heading: "EXPERIENCE",
+    intro: "Shipped with studio teams — every bullet below is my own contribution within those teams.",
+    stamp: "STAGE CLEAR",
     jobs: [
       {
         studio: "Enixo Studio",
@@ -97,11 +156,11 @@ const SITE = {
         period: "May 2023 – present",
         bullets: [
           "Upgraded a 2-player Ludo engine to robust 4-player online play with real-money-ready game modes.",
-          "Led the networking migration from Photon PUN to Socket.IO on a unified multi-game APK (Chess, Carrom, 8-Ball Pool, Teen Patti, Dragon Tiger).",
+          "Network migration: Photon PUN → Socket.IO on a unified multi-game APK (Chess, Carrom, 8-Ball Pool, Teen Patti, Dragon Tiger).",
           "Engineered the Rummy suite (Point, Pool, Deal) multiplayer algorithms; built Jhandi Munda from scratch; built randomised Tambola ticket generation and pattern matching.",
-          "Personally owned end to end: client-side Socket.IO multiplayer (real-time state sync, room management), Google sign-in, CashFree payment integration (KYC, UPI flows) and Firebase integration.",
-          "Resolved network edge cases: host/admin migration, real-time physics sync for Pool and Carrom, unstable-connection recovery.",
-          "Additionally: Teen Patti suite UI reskins; bot AI and RNG calibration.",
+          "Handled client-side Socket.IO multiplayer (real-time state sync, room management), Google sign-in, CashFree payment integration (KYC, UPI flows) and Firebase integration.",
+          "Resolved network edge cases: host/admin migration, networked physics sync for Pool and Carrom, unstable-connection recovery.",
+          "Teen Patti suite UI reskins; bot AI and RNG calibration.",
         ],
       },
       {
@@ -118,7 +177,7 @@ const SITE = {
         role: "Unity Developer Intern",
         period: "Jan 2022 – Jul 2022",
         bullets: [
-          "Designed and released a physics-driven 2D bubble shooter; built a custom level editor and balanced 27+ levels.",
+          "Designed a physics-driven 2D bubble shooter; built a custom level editor and balanced 27+ levels.",
           "Integrated Unity Ads, a spin wheel and an in-game shop; fixed critical Android build bugs; supported Match 3 and Cooking Carnival titles.",
         ],
       },
@@ -126,105 +185,172 @@ const SITE = {
   },
 
   projects: {
-    heading: "Projects",
-    groupA: {
-      label: "Professional work — studio titles",
-      note: "Source code for studio work is private; each card states exactly what I built within the team.",
-      cards: [
-        {
-          title: "Multi-game online casino suite",
-          org: "Enixo Studio",
-          what: "A unified Socket.IO APK housing Chess, Carrom, 8-Ball Pool, Teen Patti and Dragon Tiger.",
-          role: "Led the Photon PUN → Socket.IO migration; owned client-side multiplayer, real-time state sync and room management.",
-          caption: "",
-          link: null,
-        },
-        {
-          title: "Rummy suite — Point, Pool & Deal",
-          org: "Enixo Studio",
-          what: "A complete multiplayer Rummy suite with three variants.",
-          role: "Engineered multiplayer deck distribution, turn routing and sequence/pair detection algorithms.",
-          caption: "",
-          link: null,
-        },
-        {
-          title: "Ludo — 2 → 4 players, real-money-ready",
-          org: "Enixo Studio",
-          what: "Online Ludo engine upgrade with modes engineered for shorter matches.",
-          role: "Engine upgrade including host migration and unstable-connection handling.",
-          caption: "Live titles included Navdurga Ludo — site since offline.",
-          link: null,
-        },
-        {
-          title: "Jhandi Munda",
-          org: "Enixo Studio",
-          what: "A classic dice game built for online play.",
-          role: "Built entirely from scratch, including bet resolution and bot AI.",
-          caption: "",
-          link: null,
-        },
-        {
-          title: "Tambola (Housie)",
-          org: "Enixo Studio",
-          what: "Online Tambola for multiplayer sessions.",
-          role: "Architected randomised ticket generation and the pattern-matching system.",
-          caption: "",
-          link: null,
-        },
-        {
-          title: "Divinity Games",
-          org: "Multi-game suite",
-          what: "A multi-game Unity suite — 8-Ball Pool, Chess, Archery Shooting and Carrom modules with Firebase integration.",
-          role: "Client-side game development and Firebase integration.",
-          caption: "",
-          link: null,
-        },
-        {
-          title: "Bubble Shooter",
-          org: "S.N.K. IT Solutions",
-          what: "A physics-driven 2D bubble shooter, released on Android.",
-          role: "Owned core development: cascading physics, a custom level editor and 27+ balanced levels; integrated ads, spin wheel and shop.",
-          caption: "",
-          link: {
-            label: "Play Store listing",
-            href: "https://play.google.com/store/apps/details?id=com.emoji.puzzle.game.fun.mathching",
-            external: true,
-          },
-        },
-        {
-          title: "Ludo titles",
-          org: "V.R. Developers",
-          what: "Multiple unique online Ludo titles with varied features and game modes.",
-          role: "Photon PUN multiplayer and Node.js backend collaboration.",
-          caption: "Earlier live titles included Ludo Warriors and GoluDo Pay — sites since offline.",
-          link: null,
-        },
-      ],
-    },
-    groupB: {
-      label: "Personal projects — code you can read",
-      note: "My own end-to-end work, public and checkable.",
-      cards: [
-        {
-          title: "Elevator Simulation",
-          org: "Personal project — C# / Unity",
-          what: "A 3-elevator, 5-floor dispatch simulation built to demonstrate systems engineering: SCAN-style dispatch per cabin, 6-factor weighted suitability scoring with deterministic tie-breaks, frame-batched dispatch so simultaneous calls never land on one car, and duplicate-call prevention at three layers. Stress-tested with 8 simultaneous hall calls → 8 clean dispatches, none double-assigned.",
-          role: "Designed, built and documented solo — the repo ships with its own implementation plan, implementation log and an audit pass (9/9 checks verified).",
-          caption: "",
-          image: "assets/elevator-screenshot.png",
-          imageAlt: "Screenshot of the elevator simulation: three elevator shafts serving five floors with UP/DOWN call buttons",
-          links: [
-            { label: "GitHub repo", href: "https://github.com/meehn69/Elevator_Simulation", external: true },
-            { label: "Engineering docs", href: "https://github.com/meehn69/Elevator_Simulation/tree/main/Docs", external: true },
-          ],
-        },
-      ],
-    },
+    heading: "PROJECTS",
+    note: "Source code for studio work is private; every bullet on a card is my own contribution within the team.",
+    counterFormat: "{n} / {total}",
+    detailsLabel: "+ DETAILS",
+    items: [
+      {
+        id: "casino-suite",
+        type: "studio",
+        title: "Multi-game online casino suite",
+        studio: "Enixo Studio",
+        genre: "MULTI-GAME",
+        glyph: "eight-ball",
+        what: "A unified Socket.IO APK housing Chess, Carrom, 8-Ball Pool, Teen Patti and Dragon Tiger.",
+        tech: ["Unity", "C#", "Socket.IO", "Firebase"],
+        bullets: [
+          "Led the Photon PUN → Socket.IO migration across the suite",
+          "Handled client-side multiplayer: real-time state sync and room management",
+          "Integrated Google sign-in, CashFree payments and Firebase",
+        ],
+        caption: "",
+        links: [],
+      },
+      {
+        id: "rummy-suite",
+        type: "studio",
+        title: "Rummy suite — Point, Pool & Deal",
+        studio: "Enixo Studio",
+        genre: "CARD GAME",
+        glyph: "card-random",
+        what: "A complete multiplayer Rummy suite with three variants.",
+        tech: ["Unity", "C#", "Socket.IO"],
+        bullets: [
+          "Engineered deck distribution and turn routing",
+          "Built sequence/pair detection algorithms for all three variants",
+        ],
+        caption: "",
+        links: [],
+      },
+      {
+        id: "ludo-online",
+        type: "studio",
+        title: "Ludo — 2 → 4 players, real-money-ready",
+        studio: "Enixo Studio",
+        genre: "BOARD GAME",
+        glyph: "dice-six-faces-five",
+        what: "Online Ludo engine upgrade with modes engineered for shorter matches.",
+        tech: ["Unity", "C#", "Socket.IO"],
+        bullets: [
+          "Upgraded the 2-player engine to robust 4-player online play",
+          "Engineered host migration and unstable-connection handling",
+          "Designed game modes tuned for shorter, real-money-ready matches",
+        ],
+        caption: "Live titles included Navdurga Ludo — site since offline.",
+        links: [],
+      },
+      {
+        id: "jhandi-munda",
+        type: "studio",
+        title: "Jhandi Munda",
+        studio: "Enixo Studio",
+        genre: "DICE GAME",
+        glyph: "dice-six-faces-one",
+        what: "A classic dice game built for online play.",
+        tech: ["Unity", "C#"],
+        bullets: [
+          "Built the game entirely from scratch",
+          "Implemented bet resolution and bot AI",
+        ],
+        caption: "",
+        links: [],
+      },
+      {
+        id: "tambola",
+        type: "studio",
+        title: "Tambola (Housie)",
+        studio: "Enixo Studio",
+        genre: "TICKET GAME",
+        glyph: "ticket",
+        what: "Online Tambola for multiplayer sessions.",
+        tech: ["Unity", "C#"],
+        bullets: [
+          "Architected randomised ticket generation",
+          "Built the pattern-matching system for multiplayer sessions",
+        ],
+        caption: "",
+        links: [],
+      },
+      {
+        id: "divinity-games",
+        type: "studio",
+        title: "Divinity Games",
+        studio: "Multi-game suite",
+        genre: "MULTI-GAME",
+        glyph: "crown",
+        what: "A multi-game Unity suite — 8-Ball Pool, Chess, Archery Shooting and Carrom modules.",
+        tech: ["Unity", "C#", "Firebase"],
+        bullets: [
+          "Developed client-side gameplay across four game modules",
+          "Integrated Firebase throughout the suite",
+        ],
+        caption: "",
+        links: [],
+      },
+      {
+        id: "bubble-shooter",
+        type: "studio",
+        title: "Bubble Shooter",
+        studio: "S.N.K. IT Solutions",
+        genre: "PUZZLE",
+        glyph: "target-arrows",
+        what: "A physics-driven 2D bubble shooter with a custom level editor.",
+        tech: ["Unity", "C#"],
+        bullets: [
+          "Built cascading bubble physics from scratch",
+          "Created a custom level editor and balanced 27+ levels",
+          "Integrated ads, a spin wheel and an in-game shop",
+        ],
+        caption: "Built during my internship — never publicly released.",
+        links: [],
+      },
+      {
+        id: "ludo-titles-vr",
+        type: "studio",
+        title: "Ludo titles",
+        studio: "V.R. Developers",
+        genre: "BOARD GAME",
+        glyph: "dice-six-faces-five",
+        what: "Multiple unique online Ludo titles with varied features and game modes.",
+        tech: ["Unity", "C#", "Photon PUN", "Node.js"],
+        bullets: [
+          "Built Photon PUN multiplayer across several distinct Ludo titles",
+          "Collaborated with a Node.js backend team",
+          "Improved bot AI and dice RNG; debugged CashFree payment flows",
+        ],
+        caption: "Earlier live titles included Ludo Warriors and GoluDo Pay — sites since offline.",
+        links: [],
+      },
+      {
+        id: "elevator",
+        type: "personal",
+        title: "Elevator Simulation",
+        studio: "PERSONAL PROJECT",
+        genre: "SIMULATION",
+        glyph: "elevator",
+        what: "3 elevators, 5 floors, zero double-assignments — a dispatch simulation built to be audited.",
+        tech: ["C#", "Unity"],
+        bullets: [
+          "Engineered SCAN-style dispatch per cabin with 6-factor weighted suitability scoring and deterministic tie-breaks",
+          "Frame-batched dispatch so simultaneous calls never land on one car",
+          "Stress-tested 8 simultaneous hall calls → 8 clean dispatches, none double-assigned",
+          "Shipped with its own implementation plan, log and audit pass (9/9 checks verified)",
+        ],
+        caption: "",
+        image: "assets/elevator-screenshot.png",
+        imageAlt: "Screenshot of the elevator simulation: three elevator shafts serving five floors with UP/DOWN call buttons",
+        links: [
+          { label: "GitHub repo", href: "https://github.com/meehn69/Elevator_Simulation", external: true },
+          { label: "Engineering docs", href: "https://github.com/meehn69/Elevator_Simulation/tree/main/Docs", external: true },
+        ],
+      },
+    ],
   },
 
   contact: {
-    heading: "Contact",
-    line: "The fastest way to reach me is email.",
+    heading: "CONTACT",
+    line: "Recruiter? Email is fastest. Phone works too.",
     email: "your.email@example.com",
     phone: "+91 00000 00000",
     phoneHref: "tel:+910000000000",
@@ -233,8 +359,35 @@ const SITE = {
     location: "Based in India.",
   },
 
+  dock: [
+    { key: "email", icon: "mail", label: "EMAIL" },
+    { key: "phone", icon: "phone", label: "PHONE" },
+    { key: "linkedin", icon: "linkedin", label: "LINKEDIN" },
+    { key: "location", icon: "map-pin", label: "LOCATION" },
+  ],
+
   footer: {
     line: "Built with HTML, CSS and JavaScript.",
+    patchNotes: [
+      {
+        version: "v1.3",
+        date: "2026-10",
+        lines: [
+          "Genre marquee added. Glyphs licensed, velocity honest.",
+          "Hero gradient replaced with a shader. Battery cost measured and accepted.",
+        ],
+      },
+      {
+        version: "v1.2",
+        date: "2026-09",
+        lines: [
+          "Theme B shipped. Same frame rate, lighter palette.",
+          "Details expander: fewer clicks to the bullets.",
+        ],
+      },
+    ],
+    attribution: "Game icons by game-icons.net (CC BY 3.0) · Fonts: Press Start 2P, Space Grotesk (SIL OFL) · three.js (MIT) · GSAP",
+    restart: "INSERT COIN TO RESTART",
     email: "your.email@example.com",
     linkedinHref: "https://www.linkedin.com/in/your-profile",
     linkedinLabel: "LinkedIn",
