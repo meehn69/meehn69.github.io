@@ -4,37 +4,76 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Mihin Merchant — Unity Developer specialising in real-time multiplayer networking and complex game logic." />
+  <script>
+    /* Theme param before CSS so the correct skin paints first (?theme=b; toggle persists via localStorage). */
+    (function () {
+      try {
+        var p = new URLSearchParams(location.search).get("theme");
+        var t = p === "b" ? "b" : (p === "c" ? "c" : (localStorage.getItem("site-theme") === "b" ? "b" : "c"));
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { /* default c */ }
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/effects.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mihin Merchant",
+    "jobTitle": "Unity Developer",
+    "description": "Unity developer specialising in real-time multiplayer networking and complex game logic.",
+    "knowsAbout": ["Unity", "C#", "Socket.IO", "Photon PUN", "Mirror Networking", "Firebase", "Real-time multiplayer", "State synchronisation"],
+    "url": "https://meehn69.github.io/"
+  }
+  </script>
 </head>
 <body id="top">
+
+  <!-- Entrance gate: GSAP-free boot sequence; gate.js fills and runs it. -->
+  <div id="gate" hidden></div>
 
   <nav class="nav">
     <div class="container nav-inner">
       <a id="nav-name" class="nav-name" href="#top"></a>
       <div id="nav-links" class="nav-links"></div>
+      <button id="nav-theme" class="nav-theme" type="button" aria-label="Switch colour theme"></button>
     </div>
   </nav>
 
   <header class="hero">
-    <div class="container">
-      <h1 id="hero-role" class="hero-role"></h1>
-      <p id="hero-sub" class="hero-sub"></p>
-      <span id="hero-location" class="hero-location"></span>
-      <div id="hero-buttons" class="btn-row"></div>
+    <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="container hero-stage">
+      <div class="hero-side hero-side-l" id="hero-tokens-l"></div>
+      <div class="hero-center">
+        <span id="hero-badge" class="hero-badge"></span>
+        <h1 id="hero-name" class="hero-name"></h1>
+        <p id="hero-role" class="hero-role"></p>
+        <p id="hero-sub" class="hero-sub"></p>
+        <div id="hero-buttons" class="btn-row"></div>
+        <div id="hero-tokens-row" class="hero-tokens-row" hidden></div>
+      </div>
+      <div class="hero-side hero-side-r" id="hero-tokens-r"></div>
     </div>
   </header>
+
+  <div id="marquee" class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marquee-track"></div>
+  </div>
 
   <section id="about">
     <div class="container">
       <h2 id="about-heading"></h2>
-      <div id="about-text" class="about-text"></div>
-    </div>
-  </section>
-
-  <section id="skills">
-    <div class="container">
-      <h2 id="skills-heading"></h2>
+      <div class="about-grid">
+        <div class="about-copy">
+          <div id="about-lines"></div>
+          <ul id="about-bullets"></ul>
+        </div>
+        <aside id="player-card" class="player-card"></aside>
+      </div>
+      <h3 id="skills-heading"></h3>
       <div id="skills-groups"></div>
     </div>
   </section>
@@ -42,111 +81,135 @@
   <section id="experience">
     <div class="container">
       <h2 id="experience-heading"></h2>
-      <div id="experience-jobs"></div>
+      <p id="experience-intro" class="exp-intro"></p>
+      <div class="exp-rail-wrap">
+        <div class="exp-rail" id="exp-rail" aria-hidden="true"></div>
+        <div id="experience-jobs"></div>
+      </div>
     </div>
   </section>
 
   <section id="projects">
     <div class="container">
       <h2 id="projects-heading"></h2>
-
-      <p id="group-a-label" class="group-label"></p>
-      <p id="group-a-note" class="group-note"></p>
-      <div id="group-a-cards" class="cards"></div>
-
-      <p id="group-b-label" class="group-label"></p>
-      <p id="group-b-note" class="group-note"></p>
-      <div id="group-b-cards" class="cards"></div>
-
-      <div class="systems">
-        <h3>How the systems work</h3>
-        <div class="systems-grid">
-          <figure class="diagram">
-            <svg viewBox="0 0 340 200" role="img" aria-label="Diagram: migration from Photon PUN to Socket.IO">
-              <text x="12" y="18" class="d-sub">BEFORE — PHOTON PUN</text>
-              <rect x="12" y="28" width="90" height="34" class="d-box" />
-              <text x="57" y="49" text-anchor="middle" class="d-label">Client A</text>
-              <rect x="125" y="28" width="90" height="34" class="d-box" />
-              <text x="170" y="49" text-anchor="middle" class="d-label">Client B</text>
-              <rect x="234" y="22" width="98" height="46" class="d-box" />
-              <text x="283" y="42" text-anchor="middle" class="d-label">Photon Cloud</text>
-              <text x="283" y="57" text-anchor="middle" class="d-sub">state hosted remotely</text>
-              <line x1="104" y1="45" x2="121" y2="45" class="d-arrow" />
-              <line x1="217" y1="45" x2="234" y2="45" class="d-arrow" />
-              <text x="12" y="112" class="d-sub">AFTER — SOCKET.IO</text>
-              <rect x="12" y="122" width="90" height="34" class="d-box" />
-              <text x="57" y="143" text-anchor="middle" class="d-label">Client A</text>
-              <rect x="125" y="122" width="90" height="34" class="d-box" />
-              <text x="170" y="143" text-anchor="middle" class="d-label">Client B</text>
-              <rect x="234" y="116" width="98" height="46" class="d-box" />
-              <text x="283" y="136" text-anchor="middle" class="d-label">Socket.IO server</text>
-              <text x="283" y="151" text-anchor="middle" class="d-sub">authoritative state</text>
-              <line x1="104" y1="139" x2="121" y2="139" class="d-arrow" />
-              <line x1="121" y1="146" x2="104" y2="146" class="d-arrow" />
-              <line x1="217" y1="139" x2="234" y2="139" class="d-arrow" />
-              <line x1="234" y1="146" x2="217" y2="146" class="d-arrow" />
-              <text x="12" y="186" class="d-sub">migration led by Mihin — real-time comms for a multi-game APK</text>
-            </svg>
-            <figcaption>Photon PUN → Socket.IO: where state authority moved.</figcaption>
-          </figure>
-
-          <figure class="diagram">
-            <svg viewBox="0 0 340 200" role="img" aria-label="Diagram: client-side state synchronisation loop">
-              <rect x="12" y="14" width="76" height="30" class="d-box" />
-              <text x="50" y="33" text-anchor="middle" class="d-label">Input</text>
-              <rect x="120" y="14" width="90" height="30" class="d-box" />
-              <text x="165" y="33" text-anchor="middle" class="d-label">Event emitted</text>
-              <rect x="242" y="14" width="86" height="30" class="d-box" />
-              <text x="285" y="33" text-anchor="middle" class="d-label">Socket.IO room</text>
-              <line x1="88" y1="29" x2="116" y2="29" class="d-arrow" />
-              <line x1="210" y1="29" x2="238" y2="29" class="d-arrow" />
-              <rect x="242" y="76" width="86" height="30" class="d-box" />
-              <text x="285" y="95" text-anchor="middle" class="d-label">Broadcast</text>
-              <line x1="285" y1="44" x2="285" y2="72" class="d-arrow" />
-              <rect x="120" y="138" width="120" height="30" class="d-box" />
-              <text x="180" y="157" text-anchor="middle" class="d-label">Interpolated state</text>
-              <line x1="242" y1="91" x2="240" y2="140" class="d-arrow" />
-              <rect x="12" y="138" width="76" height="30" class="d-box" />
-              <text x="50" y="157" text-anchor="middle" class="d-label">UI</text>
-              <line x1="116" y1="153" x2="92" y2="153" class="d-arrow" />
-              <rect x="120" y="76" width="90" height="30" class="d-box" />
-              <text x="165" y="95" text-anchor="middle" class="d-label">Local state</text>
-              <line x1="165" y1="106" x2="165" y2="134" class="d-arrow" />
-              <rect x="12" y="76" width="90" height="30" class="d-box" />
-              <text x="57" y="90" text-anchor="middle" class="d-sub">on disconnect:</text>
-              <text x="57" y="101" text-anchor="middle" class="d-sub">host migration</text>
-            </svg>
-            <figcaption>Client-side state sync loop, with host migration on disconnect.</figcaption>
-          </figure>
+      <p id="projects-note" class="proj-note"></p>
+      <div class="proj-stage" id="proj-stage">
+        <canvas id="proj-canvas" class="proj-canvas" aria-hidden="true"></canvas>
+        <div class="proj-hud">
+          <span id="proj-counter" class="proj-counter" aria-live="polite"></span>
+          <div id="proj-credits" class="proj-credits"></div>
+          <div id="proj-dots" class="proj-dots" role="tablist" aria-label="Projects"></div>
         </div>
       </div>
+      <div id="projects-mobile" class="proj-mobile"></div>
+      <template id="systems-diagrams">
+        <div class="systems">
+          <h4>How the systems work</h4>
+          <div class="systems-grid">
+            <figure class="diagram">
+              <svg viewBox="0 0 340 200" role="img" aria-label="Diagram: migration from Photon PUN to Socket.IO">
+                <text x="12" y="18" class="d-sub">BEFORE — PHOTON PUN</text>
+                <rect x="12" y="28" width="90" height="34" class="d-box" />
+                <text x="57" y="49" text-anchor="middle" class="d-label">Client A</text>
+                <rect x="125" y="28" width="90" height="34" class="d-box" />
+                <text x="170" y="49" text-anchor="middle" class="d-label">Client B</text>
+                <rect x="234" y="22" width="98" height="46" class="d-box" />
+                <text x="283" y="42" text-anchor="middle" class="d-label">Photon Cloud</text>
+                <text x="283" y="57" text-anchor="middle" class="d-sub">state hosted remotely</text>
+                <line x1="104" y1="45" x2="121" y2="45" class="d-arrow" />
+                <line x1="217" y1="45" x2="234" y2="45" class="d-arrow" />
+                <text x="12" y="112" class="d-sub">AFTER — SOCKET.IO</text>
+                <rect x="12" y="122" width="90" height="34" class="d-box" />
+                <text x="57" y="143" text-anchor="middle" class="d-label">Client A</text>
+                <rect x="125" y="122" width="90" height="34" class="d-box" />
+                <text x="170" y="143" text-anchor="middle" class="d-label">Client B</text>
+                <rect x="234" y="116" width="98" height="46" class="d-box" />
+                <text x="283" y="136" text-anchor="middle" class="d-label">Socket.IO server</text>
+                <text x="283" y="151" text-anchor="middle" class="d-sub">authoritative state</text>
+                <line x1="104" y1="139" x2="121" y2="139" class="d-arrow" />
+                <line x1="121" y1="146" x2="104" y2="146" class="d-arrow" />
+                <line x1="217" y1="139" x2="234" y2="139" class="d-arrow" />
+                <line x1="234" y1="146" x2="217" y2="146" class="d-arrow" />
+                <text x="12" y="186" class="d-sub">migration led by Mihin — real-time comms for a multi-game APK</text>
+              </svg>
+              <figcaption>Photon PUN → Socket.IO: where state authority moved.</figcaption>
+            </figure>
+            <figure class="diagram">
+              <svg viewBox="0 0 340 200" role="img" aria-label="Diagram: client-side state synchronisation loop">
+                <rect x="12" y="14" width="76" height="30" class="d-box" />
+                <text x="50" y="33" text-anchor="middle" class="d-label">Input</text>
+                <rect x="120" y="14" width="90" height="30" class="d-box" />
+                <text x="165" y="33" text-anchor="middle" class="d-label">Event emitted</text>
+                <rect x="242" y="14" width="86" height="30" class="d-box" />
+                <text x="285" y="33" text-anchor="middle" class="d-label">Socket.IO room</text>
+                <line x1="88" y1="29" x2="116" y2="29" class="d-arrow" />
+                <line x1="210" y1="29" x2="238" y2="29" class="d-arrow" />
+                <rect x="242" y="76" width="86" height="30" class="d-box" />
+                <text x="285" y="95" text-anchor="middle" class="d-label">Broadcast</text>
+                <line x1="285" y1="44" x2="285" y2="72" class="d-arrow" />
+                <rect x="120" y="138" width="120" height="30" class="d-box" />
+                <text x="180" y="157" text-anchor="middle" class="d-label">Interpolated state</text>
+                <line x1="242" y1="91" x2="240" y2="140" class="d-arrow" />
+                <rect x="12" y="138" width="76" height="30" class="d-box" />
+                <text x="50" y="157" text-anchor="middle" class="d-label">UI</text>
+                <line x1="116" y1="153" x2="92" y2="153" class="d-arrow" />
+                <rect x="120" y="76" width="90" height="30" class="d-box" />
+                <text x="165" y="95" text-anchor="middle" class="d-label">Local state</text>
+                <line x1="165" y1="106" x2="165" y2="134" class="d-arrow" />
+                <rect x="12" y="76" width="90" height="30" class="d-box" />
+                <text x="57" y="90" text-anchor="middle" class="d-sub">on disconnect:</text>
+                <text x="57" y="101" text-anchor="middle" class="d-sub">host migration</text>
+              </svg>
+              <figcaption>Client-side state sync loop, with host migration on disconnect.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </template>
     </div>
   </section>
 
   <section id="contact">
     <div class="container">
       <h2 id="contact-heading"></h2>
-      <p id="contact-line" class="muted" style="margin-bottom: 24px;"></p>
+      <p id="contact-line" class="muted"></p>
+      <div id="contact-dock" class="dock"></div>
       <div id="contact-lines" class="contact-lines"></div>
     </div>
   </section>
 
   <footer class="footer">
     <div class="container footer-inner">
-      <span>© <span id="footer-year"></span> Mihin Merchant · <span id="footer-line"></span></span>
-      <span><a id="footer-mail" href="#"></a> · <a id="footer-linkedin" href="#" target="_blank" rel="noopener"></a></span>
+      <div id="patch-notes" class="patch-notes"></div>
+      <button id="footer-restart" class="btn btn-restart" type="button"></button>
+      <p id="footer-attribution" class="footer-attribution"></p>
+      <p class="footer-meta">© <span id="footer-year"></span> <span id="footer-name"></span> · <span id="footer-line"></span></p>
+      <p class="footer-links"><a id="footer-mail" href="#"></a> · <a id="footer-linkedin" href="#" target="_blank" rel="noopener"></a></p>
     </div>
   </footer>
 
   <noscript>
     <div class="container" style="padding: 24px 0;">
       <p><strong>Mihin Merchant</strong> — Unity Developer specialising in real-time multiplayer networking and complex game logic. Based in India.</p>
+      <p>Unity developer for real-time multiplayer games. Three studios, three-plus years, ten shipped titles — Ludo to Dragon Tiger — all played by real players on unstable networks.</p>
+      <p><strong>Experience</strong></p>
+      <p>Enixo Studio (May 2023 – present): Ludo engine upgrade to 4-player online; Photon PUN → Socket.IO migration on a multi-game APK; Rummy suite algorithms; Jhandi Munda from scratch; Tambola ticket generation; client-side Socket.IO multiplayer, Google sign-in, CashFree payments (KYC, UPI) and Firebase integration.</p>
+      <p>V.R. Developers (Aug 2022 – Jan 2023): multiple Ludo titles with Photon PUN multiplayer and Node.js backend collaboration; bot AI and dice RNG; CashFree payment flows.</p>
+      <p>S.N.K. IT Solutions (Jan 2022 – Jul 2022): physics-driven 2D bubble shooter with custom level editor and 27+ levels; Unity Ads, spin wheel, in-game shop.</p>
+      <p><strong>Projects</strong></p>
+      <p>Multi-game online casino suite (Enixo Studio) — unified Socket.IO APK: Chess, Carrom, 8-Ball Pool, Teen Patti, Dragon Tiger. · Rummy suite — Point, Pool &amp; Deal (Enixo Studio). · Ludo — 2 → 4 players, real-money-ready (Enixo Studio). · Jhandi Munda (Enixo Studio). · Tambola / Housie (Enixo Studio). · Divinity Games — 8-Ball Pool, Chess, Archery Shooting, Carrom + Firebase. · Bubble Shooter (S.N.K. IT Solutions). · Ludo titles (V.R. Developers). · <a href="https://github.com/meehn69/Elevator_Simulation">Elevator Simulation</a> — a 3-elevator, 5-floor dispatch simulation built to be audited (<a href="https://github.com/meehn69/Elevator_Simulation/tree/main/Docs">engineering docs</a>).</p>
       <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a> · Phone: <a href="tel:+910000000000">+91 00000 00000</a> · <a href="https://www.linkedin.com/in/your-profile">LinkedIn</a></p>
-      <p>Enable JavaScript to see the full portfolio.</p>
+      <p>Enable JavaScript for the interactive version.</p>
     </div>
   </noscript>
 
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="js/content.js"></script>
+  <script src="js/motion.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/gate.js"></script>
+  <script src="js/hero.js"></script>
+  <script src="js/marquee.js"></script>
+  <script src="js/projects.js"></script>
 </body>
 </html>
