@@ -451,8 +451,9 @@
               shelf = mod.init(THREE, { stage: stage, canvas: canvas, items: items, theme: M.currentTheme() });
               if (st) { shelf.goTo(index, index); }
             });
-          }).catch(function () {
+          }).catch(function (err) {
             /* 4s timeout or load failure → Path B, never a blank stage. */
+            window.__shelfErr = String((err && err.message) || err);
             if (!shelf && !pathBActive) { initPathB(); }
           });
         });

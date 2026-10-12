@@ -9,6 +9,17 @@
 
 export function init(THREE, opts) {
   "use strict";
+  try {
+    return initInner(THREE, opts);
+  } catch (err) {
+    window.__shelfErr = String((err && err.stack) || err);
+    throw err;
+  }
+}
+
+function initInner(THREE, opts) {
+  "use strict";
+  var M = window.Motion || { isReduced: function () { return false; } };
 
   var stage = opts.stage;
   var canvas = opts.canvas;
@@ -188,7 +199,7 @@ export function init(THREE, opts) {
       labelGeo,
       new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(drawLabel(item)) })
     );
-    label.position.z = 0.185;
+    label.position.z = 0.24; /* above the beveled front face (body front ≈ 0.215) */
     group.add(label);
 
     group.visible = false;
