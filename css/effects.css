@@ -262,6 +262,21 @@ html[data-theme="c"] body::after {
   50% { opacity: 0.15; }
 }
 
+/* ---------- Hero pixel star (HERO-C; GSAP owns rotation) ---------- */
+.hero-center { position: relative; }
+.hero-star {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: min(520px, 92%);
+  height: auto;
+  opacity: 0.16;
+  z-index: 0;
+  pointer-events: none;
+}
+html[data-theme="b"] .hero-star { opacity: 0.10; }
+.hero-name { position: relative; z-index: 1; }
+
 /* ---------- Chip skin effects (ABT-06) ---------- */
 /* Theme C: neon sheen sweep across core chips */
 html[data-theme="c"] .chip.core .chip-face-front {
