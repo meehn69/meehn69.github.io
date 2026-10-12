@@ -1,0 +1,339 @@
+/* ============================================================
+   EFFECTS LAYER — gate cabinet, CRT furniture, skin effects.
+   Everything here is decorative chrome; content styles live in
+   styles.css. The gate is GSAP-free: CSS keyframes + JS timing.
+   Reduced-motion users never see the gate (it never mounts).
+   ============================================================ */
+
+/* ---------- GLB-02 CRT veil (Theme C only; static, no flicker) ---------- */
+html[data-theme="c"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, var(--scanline) 0 2px, transparent 2px 4px);
+  box-shadow: inset 0 0 180px var(--vignette);
+}
+
+/* ---------- GATE — MIHIN-8 boot sequence ---------- */
+#gate {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #05060f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+#gate .cab {
+  position: relative;
+  width: min(480px, 94vw);
+  background:
+    repeating-linear-gradient(to right, rgba(255, 212, 71, 0.10) 0 3px, transparent 3px 26px),
+    linear-gradient(to bottom, #1b1e3c, #14162e);
+  border: 2px solid #34386b;
+  border-radius: 18px 18px 10px 10px;
+  padding: 16px 18px 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+#gate .cab-marquee {
+  text-align: center;
+  font-family: var(--font-pixel, monospace);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: #ffd447;
+  background: #101228;
+  border: 2px solid #34386b;
+  border-radius: 8px;
+  padding: 10px 8px;
+  margin-bottom: 14px;
+  text-shadow: 1px 0 0 rgba(255, 92, 138, 0.55), -1px 0 0 rgba(78, 240, 192, 0.45);
+}
+
+#gate .cab-body {
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  gap: 12px;
+  align-items: center;
+}
+
+#gate .cart-silhouette {
+  height: 92px;
+  background: linear-gradient(to bottom, #232750, #1c1f3d);
+  border: 2px solid #34386b;
+  border-radius: 8px 8px 4px 4px;
+  position: relative;
+}
+
+#gate .cart-silhouette::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 12px;
+  height: 34px;
+  border: 2px solid #4ef0c0;
+  border-radius: 4px;
+  opacity: 0.7;
+}
+
+#gate .cart-silhouette::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 8px;
+  height: 4px;
+  background: repeating-linear-gradient(to right, #34386b 0 4px, transparent 4px 8px);
+}
+
+/* The CRT screen */
+#gate .crt {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #04050c;
+  border-radius: 10px;
+  border: 3px solid #34386b;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.85), inset 0 0 8px rgba(78, 240, 192, 0.12);
+  overflow: hidden;
+  padding: 14px;
+  opacity: 0;
+}
+
+#gate .crt.wake { opacity: 1; transition: opacity 0.15s ease-out; }
+
+#gate .crt::before {
+  /* barrel highlight */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 70% at 50% 38%, rgba(120, 140, 255, 0.07), transparent 60%);
+  pointer-events: none;
+}
+
+#gate .crt::after {
+  /* scanlines */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.16) 0 2px, transparent 2px 4px);
+  pointer-events: none;
+}
+
+#gate .boot {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  line-height: 1.7;
+  color: #4ef0c0;
+  white-space: pre-wrap;
+  min-height: 7.2em;
+}
+
+#gate .boot .cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: #4ef0c0;
+  vertical-align: -2px;
+  animation: gate-cursor-blink 530ms steps(2, start) infinite;
+}
+
+#gate .title-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-pixel, monospace);
+  font-size: clamp(15px, 4.4vw, 22px);
+  letter-spacing: 0.06em;
+  color: #eef0ff;
+  text-align: center;
+  padding: 10px;
+  text-shadow: 1.5px 0 0 rgba(255, 92, 138, 0.65), -1.5px 0 0 rgba(78, 240, 192, 0.55);
+  transform: scale(1.6);
+  opacity: 0;
+}
+
+#gate .title-card.slam {
+  transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.38s ease-out;
+  transform: scale(1);
+  opacity: 1;
+}
+
+#gate .press-start {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16%;
+  text-align: center;
+  font-family: var(--font-pixel, monospace);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #ffd447;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#gate .press-start.blink { opacity: 1; animation: gate-press-blink 800ms steps(2, start) infinite; }
+#gate .press-start.ready { pointer-events: auto; cursor: pointer; }
+
+/* Coin + slot */
+#gate .coin {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe58a, #ffd447 55%, #b8951f);
+  border: 2px solid #191a2e;
+  box-shadow: 0 0 14px rgba(255, 212, 71, 0.5);
+  left: 50%;
+  margin-left: -17px;
+  top: -40px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+#gate .coin-slot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 26px;
+  width: 46px;
+  height: 8px;
+  border-radius: 4px;
+  background: #04050c;
+  border: 2px solid #34386b;
+}
+
+#gate .coin-slot.flash { box-shadow: 0 0 16px rgba(255, 212, 71, 0.9); border-color: #ffd447; }
+
+#gate .flash {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: scaleY(0.005);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+#gate .gate-hint {
+  text-align: center;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  color: #9aa3c7;
+  margin-top: 14px;
+}
+
+#gate .skip {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  min-width: 44px;
+  min-height: 44px;
+  font-family: var(--font-pixel, monospace);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: #9aa3c7;
+  background: rgba(20, 22, 46, 0.8);
+  border: 2px solid #34386b;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#gate .skip:hover, #gate .skip:focus-visible { color: #ffd447; border-color: #ffd447; }
+
+#gate .coin.clickable { cursor: pointer; }
+
+@keyframes gate-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes gate-press-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+/* ---------- Chip skin effects (ABT-06) ---------- */
+/* Theme C: neon sheen sweep across core chips */
+html[data-theme="c"] .chip.core .chip-face-front {
+  position: relative;
+  overflow: hidden;
+}
+
+html[data-theme="c"] .chip.core .chip-face-front::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  bottom: -40%;
+  width: 34%;
+  left: -50%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+  transform: skewX(-18deg);
+  animation: chip-sheen 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes chip-sheen {
+  0% { left: -50%; }
+  55% { left: 130%; }
+  100% { left: 130%; }
+}
+
+/* Theme B: holographic tilt — highlight follows cursor (JS sets --holo-x/--holo-y/--holo-a) */
+html[data-theme="b"] .chip.core .chip-face-front {
+  background:
+    linear-gradient(calc(var(--holo-a, 0deg)), rgba(36, 86, 230, 0.10), rgba(14, 124, 102, 0.06) 60%, transparent),
+    var(--surface);
+  background-attachment: scroll;
+}
+
+/* ---------- Icon motion helpers (CTA-02/03, §1.5) ---------- */
+.icon-draw path,
+.icon-draw circle,
+.icon-draw rect,
+.icon-draw line,
+.icon-draw polyline {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.icon-draw.drawn path,
+.icon-draw.drawn circle,
+.icon-draw.drawn rect,
+.icon-draw.drawn line,
+.icon-draw.drawn polyline {
+  animation: icon-draw 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes icon-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.icon-wiggle { animation: icon-wiggle 0.3s steps(1, end) 2; }
+
+@keyframes icon-wiggle {
+  0% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* ---------- Reduced motion: kill every decorative loop ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="c"] body::after { display: none; }
+  #gate { display: none !important; }
+  html[data-theme="c"] .chip.core .chip-face-front::after { animation: none; display: none; }
+  .icon-draw path, .icon-draw circle, .icon-draw rect, .icon-draw line, .icon-draw polyline {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
