@@ -471,6 +471,23 @@
     });
   }
 
+  /* ---------- Stamps (EXP-03): thump in after each credit card settles ---------- */
+  function initStamps() {
+    if (!M.hasGsap()) { return; }
+    document.querySelectorAll(".credit .stamp").forEach(function (stamp) {
+      ScrollTrigger.create({
+        trigger: stamp.closest(".credit"),
+        start: "top 70%",
+        once: true,
+        onEnter: function () {
+          gsap.fromTo(stamp,
+            { scale: 1.5, opacity: 0, rotation: -8 },
+            { scale: 1, opacity: 1, rotation: -8, duration: 0.32, ease: "back.out(3)", delay: 0.12 });
+        }
+      });
+    });
+  }
+
   /* ---------- Boot (each render isolated: one failure never blocks the rest) ---------- */
   try { renderNav(); } catch (e) {}
   try { renderHero(); } catch (e) { if (window.console) { console.warn("hero render:", e); } }
@@ -480,4 +497,5 @@
   try { renderFooter(); } catch (e) { if (window.console) { console.warn("footer render:", e); } }
   try { initReveals(); } catch (e) {}
   try { initCountUps(); } catch (e) {}
+  try { initStamps(); } catch (e) {}
 })();
