@@ -15,7 +15,7 @@ export function init(THREE, opts) {
   var items = opts.items;
   var theme = opts.theme === "b" ? "b" : "c";
 
-  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
   renderer.setClearColor(0x000000, 0);
   var mobile = window.matchMedia("(max-width: 1023px)").matches;
   var dprCap = mobile ? 1.5 : 2;
@@ -324,14 +324,15 @@ export function init(THREE, opts) {
 
   /* First render now; hand control back. */
   renderer.render(scene, camera);
+  canvas.dataset.shelf = "live";
+  window.dispatchEvent(new CustomEvent("shelf3d:ready"));
   canvas.style.opacity = "0";
   canvas.style.transition = "opacity 0.6s ease";
   requestAnimationFrame(function () {
     canvas.style.opacity = "1";
-    /* The CSS-3D stand-in layer retires once the real shelf is visible. */
+    /* The CSS-3D stand-in layer retires for good once the real shelf is live. */
     stage.querySelectorAll(".cart3d").forEach(function (node) {
-      if (window.gsap) { gsap.to(node, { opacity: 0, duration: 0.5, onComplete: function () { node.style.display = "none"; } }); }
-      else { node.style.display = "none"; }
+      node.style.display = "none";
     });
   });
 

@@ -375,6 +375,7 @@
   }
 
   function flyCss3D(prev, next) {
+    if (!pathBActive || shelf) { return; } /* the real shelf owns flight once live */
     if (!bCartridges.length) { return; }
     var out = bCartridges[prev];
     var inc = bCartridges[next];
@@ -452,7 +453,7 @@
             });
           }).catch(function () {
             /* 4s timeout or load failure → Path B, never a blank stage. */
-            if (!pathBActive) { initPathB(); }
+            if (!shelf && !pathBActive) { initPathB(); }
           });
         });
       }, { rootMargin: "200% 0px" });
