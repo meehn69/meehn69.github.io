@@ -138,6 +138,8 @@
       typeBoot(function () {
         later(function () {
           titleCard.classList.add("slam"); /* GATE-03 title-slam */
+          boot.style.transition = "opacity 0.3s ease";
+          boot.style.opacity = "0.25";
           M.ding();
           later(function () {
             pressStart.classList.add("blink", "ready"); /* GATE-04 press-blink */

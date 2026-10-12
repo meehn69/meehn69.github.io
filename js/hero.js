@@ -233,54 +233,56 @@
     startTokens();
   }
 
-  /* ---------- HERO-F/G/H + GATE-07: tokens ---------- */
+  /* ---------- HERO-F/G/H + GATE-07: tokens ----------
+     Structure: each .token gets a .token-slot wrapper. The wrapper
+     carries parallax (x/y), the token itself carries float (absolute
+     y yoyo — never relative, which drifts) and the hover pop. */
   function startTokens() {
     if (!animate) { return; }
-    var tokens = Array.prototype.slice.call(document.querySelectorAll(".token"));
-    if (!tokens.length) { return; }
+    var raw = Array.prototype.slice.call(document.querySelectorAll(".token"));
+    if (!raw.length) { return; }
 
-    if (gateWillRun && !started) {
-      gsap.set(tokens, { opacity: 0 });
-    }
+    var tokens = raw.map(function (node) {
+      var slot = document.createElement("span");
+      slot.className = "token-slot";
+      slot.style.display = "inline-block";
+      node.parentNode.insertBefore(slot, node);
+      slot.appendChild(node);
+      return { slot: slot, token: node, depth: parseFloat(node.getAttribute("data-depth")) || 0.5 };
+    });
 
     function place() {
       if (gateWillRun) {
         /* GATE-07 token-burst: from viewport center to their slots. */
         var cx = window.innerWidth / 2;
         var cy = window.innerHeight / 2;
-        tokens.forEach(function (node) {
-          var r = node.getBoundingClientRect();
+        tokens.forEach(function (t) {
+          var r = t.slot.getBoundingClientRect();
           var dx = cx - (r.left + r.width / 2);
           var dy = cy - (r.top + r.height / 2);
-          gsap.fromTo(node,
-            { x: dx, y: dy, opacity: 0, scale: 0.6 },
-            { x: 0, y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.6)", clearProps: "transform" });
+          gsap.fromTo(t.slot,
+            { x: dx, y: dy, opacity: 0 },
+            { x: 0, y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.6)" });
+          gsap.fromTo(t.token, { scale: 0.6 }, { scale: 1, duration: 0.6, ease: "back.out(1.6)" });
         });
       }
-      /* HERO-F float: gentle sine loops. */
+      /* HERO-F float: ABSOLUTE y (0→8 yoyo) — relative values drift. */
       if (!window.matchMedia("(max-width: 1023px)").matches) {
-        tokens.forEach(function (node) {
-          gsap.to(node, {
-            y: "+=8",
-            duration: 6 + Math.random() * 3,
-            yoyo: true,
-            repeat: -1,
-            ease: "sine.inOut"
-          });
+        tokens.forEach(function (t) {
+          gsap.to(t.token, { y: 8, duration: 6 + Math.random() * 3, yoyo: true, repeat: -1, ease: "sine.inOut" });
         });
       }
     }
 
     if (gateWillRun) { setTimeout(place, 50); } else { place(); }
 
-    /* HERO-G parallax (desktop only) + HERO-H pop. */
+    /* HERO-G parallax on the slots (desktop only) + HERO-H pop on the token. */
     if (!window.matchMedia("(max-width: 1023px)").matches) {
-      var setters = tokens.map(function (node) {
-        var depth = parseFloat(node.getAttribute("data-depth")) || 0.5;
+      var setters = tokens.map(function (t) {
         return {
-          x: gsap.quickTo(node, "x", { duration: 0.4, ease: "power2.out" }),
-          y: gsap.quickTo(node, "y", { duration: 0.4, ease: "power2.out" }),
-          depth: depth
+          x: gsap.quickTo(t.slot, "x", { duration: 0.4, ease: "power2.out" }),
+          y: gsap.quickTo(t.slot, "y", { duration: 0.4, ease: "power2.out" }),
+          depth: t.depth
         };
       });
       hero.addEventListener("pointermove", function (e) {
@@ -293,12 +295,12 @@
       });
     }
 
-    tokens.forEach(function (node) {
-      node.addEventListener("mouseenter", function () {
-        gsap.to(node, { scale: 1.12, rotation: (Math.random() > 0.5 ? 3 : -3), duration: 0.18, ease: "back.out(2)" });
+    tokens.forEach(function (t) {
+      t.token.addEventListener("mouseenter", function () {
+        gsap.to(t.token, { scale: 1.12, rotation: (Math.random() > 0.5 ? 3 : -3), duration: 0.18, ease: "back.out(2)" });
       });
-      node.addEventListener("mouseleave", function () {
-        gsap.to(node, { scale: 1, rotation: 0, duration: 0.25, ease: "power2.out" });
+      t.token.addEventListener("mouseleave", function () {
+        gsap.to(t.token, { scale: 1, rotation: 0, duration: 0.25, ease: "power2.out" });
       });
     });
   }
