@@ -101,6 +101,9 @@ html[data-theme="b"] {
 
 html { scroll-behavior: smooth; }
 
+/* The document never pans horizontally; wide decorative boxes are clipped. */
+html, body { overflow-x: clip; }
+
 body {
   background: var(--bg);
   color: var(--ink);
@@ -108,7 +111,6 @@ body {
   font-size: 17px;
   line-height: 1.6;
   transition: background 0.25s ease, color 0.25s ease;
-  overflow-x: hidden;
 }
 
 .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
@@ -543,6 +545,13 @@ html[data-theme="c"] .marquee { box-shadow: inset 0 0 24px rgba(255, 212, 71, 0.
 }
 
 .chips { display: flex; flex-wrap: wrap; gap: 10px; perspective: 800px; }
+
+.chip { max-width: 100%; }
+
+.chip-inner, .chip-face { min-width: 0; }
+.chip-face { white-space: normal; }
+.chip-label { overflow-wrap: anywhere; }
+.chip-face-back { overflow-wrap: anywhere; }
 
 .chip {
   background: none;
