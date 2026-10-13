@@ -30,7 +30,7 @@
   SITE.marquee.items.forEach(function (item) { track.appendChild(buildItem(item, false)); });
   SITE.marquee.items.forEach(function (item) { track.appendChild(buildItem(item, true)); });
 
-  if (M.isReduced() || !M.hasGsap()) { return; } /* static row; CSS keeps it readable */
+  if (M.isReduced() || !M.hasScrollTrigger()) { return; } /* static row; CSS keeps it readable */
 
   var speed = 60; /* px/s base */
   var boost = 1;

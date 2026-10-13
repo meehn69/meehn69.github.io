@@ -197,7 +197,7 @@ a:hover { text-decoration: underline; }
 }
 
 html[data-theme="b"] .nav-selector {
-  width: 100%;
+  width: 1px; /* JS scales by pixel count: 1px * r.width = exact bar */
   height: 2px;
   border: none;
   background: var(--accent);
@@ -262,7 +262,7 @@ html[data-theme="b"] .hero-scrim {
   z-index: 1;
   width: 100%;
   display: grid;
-  grid-template-columns: 24% 52% 24%;
+  grid-template-columns: 24fr 52fr 24fr;
   align-items: center;
   gap: 12px;
   padding-top: 96px;
@@ -399,6 +399,7 @@ html[data-theme="b"] .btn-primary:hover { box-shadow: 0 6px 18px rgba(20, 24, 40
 }
 
 .hero-tokens-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 26px; }
+.hero-tokens-row[hidden] { display: none; }
 
 /* ---------- Marquee ---------- */
 .marquee {
@@ -711,6 +712,8 @@ html[data-theme="b"] .stamp { color: var(--accent-2); border-color: var(--accent
 }
 
 .proj-credits {
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
   background: color-mix(in srgb, var(--surface) 88%, transparent);
   border: var(--border-w) solid var(--border);
   border-radius: var(--radius);
@@ -987,7 +990,7 @@ html.no-gsap .proj-mobile { display: block; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .btn, .card, .proj-card, .chip-inner, .dock-item .dock-tile { transition: none; }
+  .btn, .proj-card, .chip-inner, .dock-item .dock-tile { transition: none; }
   .chip:hover .chip-inner, .chip:focus-visible .chip-inner { transform: none; }
   .chip.static-proof .chip-inner { transform: none !important; }
   .nav-selector { transition: none; }

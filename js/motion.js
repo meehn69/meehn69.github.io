@@ -28,6 +28,9 @@ window.Motion = (function () {
   if (hasGsap && !reduced) {
     document.documentElement.classList.add("anim");
   }
+  if (!hasGsap) {
+    document.documentElement.classList.add("no-gsap"); /* activates the CSS fallback path */
+  }
 
   /* §1.5 timing scale + easing vocabulary */
   var T = {

@@ -32,6 +32,7 @@
     try { sessionStorage.setItem("mm8_seen", "1"); } catch (e) {}
 
     function teardown() {
+      document.removeEventListener("keydown", key);
       document.body.style.overflow = "";
       if (gate.parentNode) { gate.parentNode.removeChild(gate); }
       /* GATE-07: hero takes over (token burst + letter reveal). */
@@ -160,22 +161,23 @@
     coin.style.transition = "transform 0.3s cubic-bezier(0.55, 0, 1, 0.45)";
     coin.style.transform = "translateY(" + drop + "px)";
 
-    setTimeout(function () {
+    later(function () {
       slot.classList.add("flash");
-      setTimeout(function () { slot.classList.remove("flash"); }, 160);
+      later(function () { slot.classList.remove("flash"); }, 160);
       finish(true);
     }, 310);
   }
 
-  cab.addEventListener("click", dropCoin);
-  pressStart.addEventListener("click", function (e) { e.stopPropagation(); dropCoin(); });
-  document.addEventListener("keydown", function key(e) {
-    if (e.key === "Escape") { document.removeEventListener("keydown", key); finish(false); return; }
+  function onKey(e) {
+    if (e.key === "Escape") { document.removeEventListener("keydown", onKey); finish(false); return; }
     if ((e.key === "Enter" || e.key === " ") && !finished) {
-      document.removeEventListener("keydown", key);
+      document.removeEventListener("keydown", onKey);
       dropCoin();
     }
-  });
+  }
+  cab.addEventListener("click", dropCoin);
+  pressStart.addEventListener("click", function (e) { e.stopPropagation(); dropCoin(); });
+  document.addEventListener("keydown", onKey);
 
   /* Focus lands on SKIP: blind Enter = skip; focus trapped while mounted. */
   skip.focus({ preventScroll: true });

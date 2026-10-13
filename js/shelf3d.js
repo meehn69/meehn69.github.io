@@ -239,7 +239,6 @@ function initInner(THREE, opts) {
       cartridges.forEach(function (g, k) {
         var isComing = k === next;
         var side = k < next ? -1 : 1;
-        tweens.forEach(function () {});
         gsap.killTweensOf(g.position);
         gsap.killTweensOf(g.rotation);
         if (!isComing) {
@@ -335,6 +334,10 @@ function initInner(THREE, opts) {
     ectx.fillStyle = grad2;
     ectx.fillRect(0, 0, 2, 64);
     envTex.needsUpdate = true;
+    /* Regenerate the PMREM target — repainting the source alone is a no-op. */
+    if (envRT) { envRT.dispose(); }
+    envRT = pmrem.fromScene(envScene, 0.04);
+    scene.environment = envRT.texture;
   });
 
   /* First render now; hand control back. */

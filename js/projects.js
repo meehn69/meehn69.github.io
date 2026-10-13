@@ -125,7 +125,8 @@
         gsap.from(panel, { height: 0, duration: 0.01 });
         gsap.to(panel, {
           height: "auto", clipPath: "inset(0 0 0% 0)", opacity: 1,
-          duration: 0.3, ease: "power3.out", onComplete: ScrollTrigger && ScrollTrigger.refresh
+          duration: 0.3, ease: "power3.out",
+          onComplete: function () { if (window.ScrollTrigger) { ScrollTrigger.refresh(); } }
         });
       }
     });
@@ -182,7 +183,12 @@
       lens.appendChild(lensImg);
       frame.appendChild(lens);
 
+      var ZOOM = 1.8;
       var lx = 0, ly = 0, tx = 0, ty = 0, active = false, raf = null;
+      function sizeLens() {
+        var src = screen.querySelector("img");
+        lensImg.style.width = (src.clientWidth * ZOOM) + "px";
+      }
       function loop() {
         lx += (tx - lx) * 0.25;
         ly += (ty - ly) * 0.25;
@@ -194,6 +200,7 @@
         else { raf = null; }
       }
       screen.addEventListener("mouseenter", function () {
+        sizeLens();
         lens.style.display = "block";
         active = true;
         if (!raf) { raf = requestAnimationFrame(loop); }
@@ -278,7 +285,7 @@
     paintDots();
 
     if (M.hasGsap() && !M.isReduced()) {
-      gsap.fromTo(credits, { opacity: 0, x: prev <= index ? 24 : -24 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out" });
+      gsap.fromTo(credits, { opacity: 0, x: prev <= index ? 24 : -24 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out", overwrite: true });
       gsap.fromTo(counterEl, { scale: 1.18 }, { scale: 1, duration: 0.3, ease: "back.out(2)" });
     }
     if (shelf && !skipFly) { shelf.goTo(index, prev); }
@@ -289,7 +296,6 @@
     if (!st) { setIndex(i); return; }
     var progress = i / (items.length - 1);
     var y = st.start + progress * (st.end - st.start);
-    M.scrollToEl(document.body);
     window.scrollTo({ top: y, behavior: M.isReduced() ? "auto" : "smooth" });
   }
 

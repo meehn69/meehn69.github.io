@@ -18,6 +18,10 @@ html[data-theme="c"] body::after {
 }
 
 /* ---------- GATE — MIHIN-8 boot sequence ---------- */
+/* The [hidden] attribute must beat the display:flex below — otherwise a
+   failed gate.js leaves an opaque black screen over the whole site. */
+#gate[hidden] { display: none !important; }
+
 #gate {
   position: fixed;
   inset: 0;
@@ -249,8 +253,6 @@ html[data-theme="c"] body::after {
 }
 
 #gate .skip:hover, #gate .skip:focus-visible { color: #ffd447; border-color: #ffd447; }
-
-#gate .coin.clickable { cursor: pointer; }
 
 @keyframes gate-cursor-blink {
   0%, 100% { opacity: 1; }

@@ -244,6 +244,7 @@
         group.tags.forEach(function (tag) {
           var btn = el("button", "chip" + (group.core || tag.core ? " core" : ""));
           btn.type = "button";
+          if (M.isReduced()) { btn.classList.add("static-proof"); } /* flip is motion */
           btn.setAttribute("aria-label", tag.label + " — " + tag.proof);
 
           var inner = el("span", "chip-inner");
@@ -337,6 +338,10 @@
         item.appendChild(tile);
         item.appendChild(el("span", "dock-label", d.label));
         item.appendChild(el("span", "dock-value", info.value));
+        item.addEventListener("mouseenter", function () {
+          var svg = item.querySelector("svg");
+          if (svg) { M.wiggleIcon(svg); }
+        });
         dock.appendChild(item);
         markReveal(item);
       });

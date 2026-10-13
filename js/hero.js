@@ -156,7 +156,7 @@
         visible = entries[0].isIntersecting;
       }, { threshold: 0.02 }).observe(hero);
     }
-    document.addEventListener("visibilitychange", function () { visible = !document.hidden && visible; });
+
 
     var start = performance.now();
     function frame(now) {
@@ -233,6 +233,10 @@
       var glyphSet = "!<>-_\\/[]{}—=+*^?#";
       var revealed = 0;
       role.innerHTML = "";
+      var hiddenTwin = document.createElement("span");
+      hiddenTwin.className = "visually-hidden";
+      hiddenTwin.textContent = finalText; /* SR fallback: aria-label on a <p> is not universal */
+      role.appendChild(hiddenTwin);
       var visible = document.createElement("span");
       visible.setAttribute("aria-hidden", "true");
       visible.textContent = finalText;
