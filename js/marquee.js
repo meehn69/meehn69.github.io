@@ -44,6 +44,13 @@
   }
   measure();
   window.addEventListener("resize", measure);
+  /* The pixel font widens items after first paint — a stale half-width
+     makes the seam jump back instead of continuing. Re-measure when
+     fonts land (and again shortly after, for late swaps). */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { measure(); });
+    setTimeout(measure, 1500);
+  }
 
   var coarse = window.matchMedia("(pointer: coarse)").matches;
 
