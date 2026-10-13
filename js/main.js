@@ -411,18 +411,6 @@
     if (li) { li.textContent = SITE.footer.linkedinLabel; li.href = SITE.footer.linkedinHref; }
   }
 
-  /* ---------- Chip fit: size each chip to its flipped proof face ---------- */
-  function fitChipHeights() {
-    document.querySelectorAll(".chip").forEach(function (chip) {
-      var back = chip.querySelector(".chip-face-back");
-      var inner = chip.querySelector(".chip-inner");
-      if (!back || !inner) { return; }
-      inner.style.minHeight = Math.max(44, back.scrollHeight) + "px";
-    });
-  }
-  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { try { fitChipHeights(); } catch (e) {} }); }
-  window.addEventListener("resize", function () { try { fitChipHeights(); } catch (e) {} });
-
   /* ---------- Reveal system ----------
      GSAP path: ScrollTrigger.batch over [data-reveal].
      Fallback path: .reveal + IntersectionObserver → .visible.
@@ -514,5 +502,4 @@
   try { initReveals(); } catch (e) {}
   try { initCountUps(); } catch (e) {}
   try { initStamps(); } catch (e) {}
-  try { fitChipHeights(); } catch (e) {}
 })();

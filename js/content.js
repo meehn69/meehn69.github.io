@@ -23,9 +23,9 @@ const SITE = {
   ],
 
   gate: {
-    cabinet: "MIHIN-8",
+    cabinet: "MIHIN'S ARCADE",
     bootLines: [
-      "MIHIN-8 BIOS v3.2",
+      "MIHIN'S ARCADE BIOS v3.2",
       "MEMORY 64K … OK",
       "CARTRIDGE … FOUND",
       "LOADING PORTFOLIO … READY",
@@ -91,7 +91,7 @@ const SITE = {
     level: { label: "LEVEL", value: 2.5, suffix: "+" },
     studios: { label: "STUDIOS CLEARED", value: 3, suffix: "" },
     titles: { label: "TITLES SHIPPED", value: 10, suffix: "+" },
-    quest: { label: "CURRENT QUEST", value: "IN PURSUIT OF THE PERFECT GAME" },
+    quest: { label: "CURRENT QUEST", value: "ALWAYS UP FOR THE NEXT CHALLENGE" },
     interests: [
       { label: "NETCODE", icon: "network" },
       { label: "GAME FEEL", icon: "gamepad-2" },

@@ -566,8 +566,7 @@ html[data-theme="c"] .marquee { box-shadow: inset 0 0 24px rgba(255, 212, 71, 0.
 
 .chip-inner {
   position: relative;
-  display: flex;
-  align-items: stretch;
+  display: grid;
   transform-style: preserve-3d;
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   min-height: 44px;
@@ -577,7 +576,11 @@ html[data-theme="c"] .marquee { box-shadow: inset 0 0 24px rgba(255, 212, 71, 0.
 .chip:focus-visible .chip-inner,
 .chip.flipped .chip-inner { transform: rotateX(180deg); }
 
+/* Both faces share one grid cell: the chip is always as tall as the
+   taller face, so flipped proof text can never overflow its box —
+   no JS measuring, no font-timing dependency. */
 .chip-face {
+  grid-area: 1 / 1;
   display: flex;
   align-items: center;
   backface-visibility: hidden;
@@ -587,12 +590,10 @@ html[data-theme="c"] .marquee { box-shadow: inset 0 0 24px rgba(255, 212, 71, 0.
   border-radius: 999px;
   background: var(--surface);
   font-size: 0.92rem;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .chip-face-back {
-  position: absolute;
-  inset: 0;
   overflow: hidden;
   transform: rotateX(180deg);
   font-family: var(--font-mono);
