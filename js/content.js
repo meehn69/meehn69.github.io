@@ -287,7 +287,7 @@ const SITE = {
           "Created a custom level editor and balanced 27+ levels",
           "Integrated ads, a spin wheel and an in-game shop",
         ],
-        caption: "Built during my internship — never publicly released.",
+        caption: "Built during my internship for internal release.",
         links: [],
       },
       {
