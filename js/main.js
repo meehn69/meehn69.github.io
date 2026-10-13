@@ -417,12 +417,7 @@
       var back = chip.querySelector(".chip-face-back");
       var inner = chip.querySelector(".chip-inner");
       if (!back || !inner) { return; }
-      back.style.position = "static";
-      back.style.visibility = "hidden";
-      var h = back.offsetHeight;
-      back.style.position = "";
-      back.style.visibility = "";
-      inner.style.minHeight = Math.max(44, h) + "px";
+      inner.style.minHeight = Math.max(44, back.scrollHeight) + "px";
     });
   }
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { try { fitChipHeights(); } catch (e) {} }); }
@@ -468,7 +463,7 @@
   function initCountUps() {
     if (!M.hasGsap()) { return; }
     document.querySelectorAll(".pc-value[data-count]").forEach(function (node) {
-      var end = parseInt(node.getAttribute("data-count"), 10);
+      var end = parseFloat(node.getAttribute("data-count"));
       var suffix = node.getAttribute("data-suffix") || "";
       if (isNaN(end)) { return; }
       ScrollTrigger.create({
