@@ -38,8 +38,8 @@ const SITE = {
 
   hero: {
     name: "Mihin Merchant",
-    badge: "3+ YEARS · 10+ SHIPPED TITLES",
-    roleParts: ["UNITY DEVELOPER", "REAL-TIME MULTIPLAYER", "SURAT, INDIA"],
+    badge: "2.5+ YEARS · 10+ SHIPPED TITLES",
+    roleParts: ["UNITY DEVELOPER", "EVOLVING REAL-TIME MULTIPLAYER GAMES", "WORLD MAKER · BUG RESOLVER · PERFORMANCE OPTIMISER"],
     sub: "I build online multiplayer games in Unity — the gameplay, the UI, and the netcode that keeps players connected on real-world networks.",
     buttons: [
       { label: "VIEW PROJECTS", href: "#projects" },
@@ -48,9 +48,11 @@ const SITE = {
     tokens: [
       { label: "C#", style: "cart" },
       { label: "SOCKET.IO", style: "cart" },
-      { label: "FIREBASE", style: "cart" },
+      { label: "UNITY 2D/3D", style: "cart" },
       { label: "MULTIPLAYER", style: "cart" },
-      { label: "3+ YRS", style: "coin" },
+      { label: "PHOTON PUN", style: "cart" },
+      { label: "NODE.JS", style: "cart" },
+      { label: "2.5+ YRS", style: "coin" },
       { label: "10+ SHIPPED", style: "coin" },
     ],
   },
@@ -72,7 +74,7 @@ const SITE = {
   about: {
     heading: "ABOUT",
     lines: [
-      "Unity developer for real-time multiplayer games. Three studios, three-plus years, ten shipped titles — Ludo to Dragon Tiger — all played by real players on unstable networks.",
+      "Unity developer for real-time multiplayer games. Three studios, 2.5+ years, ten shipped titles — Ludo to Dragon Tiger — all played by real players on unstable networks.",
     ],
     bullets: [
       "Socket.IO client multiplayer: state sync, rooms, host migration",
@@ -85,10 +87,10 @@ const SITE = {
 
   playerCard: {
     heading: "PLAYER PROFILE",
-    level: { label: "LEVEL", value: 3, suffix: "+" },
+    level: { label: "LEVEL", value: 2.5, suffix: "+" },
     studios: { label: "STUDIOS CLEARED", value: 3, suffix: "" },
     titles: { label: "TITLES SHIPPED", value: 10, suffix: "+" },
-    quest: { label: "CURRENT QUEST", value: "REAL-TIME MULTIPLAYER" },
+    quest: { label: "CURRENT QUEST", value: "BRINGING EVERY GAME TO ITS ZENITH" },
     interests: [
       { label: "NETCODE", icon: "network" },
       { label: "GAME FEEL", icon: "gamepad-2" },
@@ -101,41 +103,23 @@ const SITE = {
     heading: "SKILLS",
     groups: [
       {
-        label: "Core",
-        core: true,
-        tags: [
-          { label: "C# (LINQ, delegates, custom events)", proof: "6+ shipped codebases" },
-          { label: "Unity 2D/3D", proof: "Shipped studio and personal titles" },
-          { label: "Unity UI & Event Systems", proof: "Full suite reskins, Teen Patti" },
-          { label: "DOTween", proof: "Tweens, pops and game-feel polish" },
-          { label: "Scriptable Objects (data-driven design)", proof: "This very site runs on data" },
-        ],
-      },
-      {
-        label: "Multiplayer & networking",
+        label: "",
         core: false,
         tags: [
+          { label: "C# (LINQ, delegates, custom events)", proof: "6+ shipped codebases", core: true },
+          { label: "Unity 2D/3D", proof: "Shipped studio and personal titles", core: true },
+          { label: "Unity UI & Event Systems", proof: "Full suite reskins, Teen Patti", core: true },
+          { label: "DOTween", proof: "Tweens, pops and game-feel polish", core: true },
+          { label: "Scriptable Objects (data-driven design)", proof: "This very site runs on data", core: true },
           { label: "Socket.IO", proof: "Led the PUN→Socket.IO migration" },
           { label: "Photon PUN (architecture & migration)", proof: "Multiple shipped Ludo titles" },
           { label: "Mirror Networking", proof: "Host-authority sync patterns" },
           { label: "State synchronisation", proof: "Host migration, pause/resume, turn routing" },
           { label: "Networked physics synchronisation", proof: "Pool and Carrom on unstable links" },
           { label: "Turn-based systems", proof: "Cards, Ludo, Tambola — shipped" },
-        ],
-      },
-      {
-        label: "Game systems & algorithms",
-        core: false,
-        tags: [
           { label: "Randomisation & pattern matching", proof: "Tambola tickets, Rummy sequences" },
           { label: "Bot AI & difficulty calibration", proof: "Weighted probabilities, dice RNG" },
           { label: "Physics & collision detection", proof: "Bubble cascades, 8-Ball trajectories" },
-        ],
-      },
-      {
-        label: "Backend & integrations",
-        core: false,
-        tags: [
           { label: "Firebase integration", proof: "Auth + live data on shipped suites" },
           { label: "Node.js API collaboration", proof: "Multiplayer services across titles" },
           { label: "CashFree payment gateway (KYC, UPI flows)", proof: "Debugged live payment flows" },
@@ -186,7 +170,6 @@ const SITE = {
 
   projects: {
     heading: "PROJECTS",
-    note: "Source code for studio work is private; every bullet on a card is my own contribution within the team.",
     counterFormat: "{n} / {total}",
     detailsLabel: "+ DETAILS",
     items: [
@@ -237,7 +220,7 @@ const SITE = {
           "Engineered host migration and unstable-connection handling",
           "Designed game modes tuned for shorter, real-money-ready matches",
         ],
-        caption: "Live titles included Navdurga Ludo — site since offline.",
+        caption: "Shipped live with real players across multiple titles.",
         links: [],
       },
       {
@@ -275,15 +258,16 @@ const SITE = {
       {
         id: "divinity-games",
         type: "studio",
-        title: "Divinity Games",
-        studio: "Multi-game suite",
+        title: "Multi-game suite",
+        studio: "Enixo Studio",
         genre: "MULTI-GAME",
         glyph: "crown",
-        what: "A multi-game Unity suite — 8-Ball Pool, Chess, Archery Shooting and Carrom modules.",
-        tech: ["Unity", "C#", "Firebase"],
+        what: "One application bundling multiple games — 8-Ball Pool, Chess, Archery Shooting and Carrom.",
+        tech: ["Unity", "C#", "Firebase", "Physics & collision", "State sync"],
         bullets: [
-          "Developed client-side gameplay across four game modules",
-          "Integrated Firebase throughout the suite",
+          "Developed client-side gameplay across the 8-Ball Pool, Chess, Archery and Carrom modules",
+          "Built the physics and collision systems behind Pool and Carrom",
+          "Integrated Firebase and real-time state sync across the suite",
         ],
         caption: "",
         links: [],
@@ -308,19 +292,22 @@ const SITE = {
       {
         id: "ludo-titles-vr",
         type: "studio",
-        title: "Ludo titles",
+        title: "Ludo & casual titles",
         studio: "V.R. Developers",
-        genre: "BOARD GAME",
+        genre: "MULTI-GENRE",
         glyph: "dice-six-faces-five",
-        what: "Multiple unique online Ludo titles with varied features and game modes.",
+        what: "Multiple online Ludo titles, an emoji puzzle matching game and the hyper-casual Idle Business Tycoon.",
         tech: ["Unity", "C#", "Photon PUN", "Node.js"],
         bullets: [
           "Built Photon PUN multiplayer across several distinct Ludo titles",
-          "Collaborated with a Node.js backend team",
-          "Improved bot AI and dice RNG; debugged CashFree payment flows",
+          "Developed an emoji puzzle matching game, released on Google Play",
+          "Designed and built Idle Business Tycoon, a hyper-casual title",
+          "Collaborated with a Node.js backend team; improved bot AI and dice RNG",
         ],
-        caption: "Earlier live titles included Ludo Warriors and GoluDo Pay — sites since offline.",
-        links: [],
+        caption: "",
+        links: [
+          { label: "Play Store listing", href: "https://play.google.com/store/apps/details?id=com.emoji.puzzle.game.fun.mathching", external: true },
+        ],
       },
       {
         id: "elevator",
@@ -335,7 +322,7 @@ const SITE = {
           "Engineered SCAN-style dispatch per cabin with 6-factor weighted suitability scoring and deterministic tie-breaks",
           "Frame-batched dispatch so simultaneous calls never land on one car",
           "Stress-tested 8 simultaneous hall calls → 8 clean dispatches, none double-assigned",
-          "Shipped with its own implementation plan, log and audit pass (9/9 checks verified)",
+          "Documented end to end — implementation plan, engineering log and audit pass (9/9 checks verified)",
         ],
         caption: "",
         image: "assets/elevator-screenshot.png",

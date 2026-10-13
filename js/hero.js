@@ -35,6 +35,7 @@
       "precision mediump float;",
       "uniform vec2 u_res;",
       "uniform float u_time;",
+      "uniform vec2 u_mouse;",
       "uniform vec3 u_c1;",
       "uniform vec3 u_c2;",
       "uniform vec3 u_c3;",
@@ -46,17 +47,32 @@
       " vec2 uv=gl_FragCoord.xy/u_res;",
       " vec2 q=uv*vec2(u_res.x/u_res.y,1.0);",
       " float t=u_time*0.06;",
+      " vec2 par=(u_mouse-0.5)*vec2(0.10,0.06);",
       " float w=fbm(q*1.4+vec2(t*0.5,-t*0.3));",
-      " vec2 warp=q+vec2(w-0.5,w2(w))*0.35;",
+      " vec2 warp=q+vec2(w-0.5,fbm(q*1.1+vec2(t*0.27,t*0.41)))*0.35;",
       " float m=fbm(warp*1.8+vec2(-t*0.35,t*0.22));",
       " vec3 col=mix(u_c1,u_c2,smoothstep(0.15,0.75,w));",
       " col=mix(col,u_c3,smoothstep(0.55,0.95,m)*0.85);",
       " col+=(hash(gl_FragCoord.xy)-0.5)*0.02;",
+      " vec2 sp=(q+par)*20.0;",
+      " vec2 cell=floor(sp);vec2 f=fract(sp)-0.5;",
+      " float h=hash(cell);",
+      " float star=smoothstep(0.10,0.0,length(f))*step(0.92,h);",
+      " float tw=0.35+0.65*(0.5+0.5*sin(u_time*2.2+h*43.0));",
+      " col+=star*tw*vec3(1.0,0.97,0.88);",
+      " float cyc=mod(u_time,8.0);",
+      " float seed=floor(u_time/8.0);",
+      " vec2 o=vec2(0.05+hash(vec2(seed,3.0))*0.25,0.85-hash(vec2(seed,5.0))*0.35);",
+      " vec2 dir=normalize(vec2(1.0,-0.6));",
+      " vec2 dv=q+par*0.5-o;",
+      " float dst=abs(dot(dv,vec2(-dir.y,dir.x)));",
+      " float along=dot(dv,dir);",
+      " float streak=smoothstep(0.015,0.0,dst)*smoothstep(0.45,0.0,abs(along-0.22))*step(0.0,along);",
+      " float pulse=exp(-pow((cyc-1.4)*2.2,2.0));",
+      " col+=streak*pulse*vec3(1.0,0.9,0.75)*0.8;",
       " gl_FragColor=vec4(col,1.0);",
       "}"
     ].join("\n");
-    /* w2 = second fbm sample (declared separately to keep GLSL1 happy) */
-    FRAG = FRAG.replace("w2(w)", "fbm(q*1.1+vec2(t*0.27,t*0.41))");
 
     function compile(type, src) {
       var sh = gl.createShader(type);
@@ -86,6 +102,12 @@
 
     var uRes = gl.getUniformLocation(prog, "u_res");
     var uTime = gl.getUniformLocation(prog, "u_time");
+    var uMouse = gl.getUniformLocation(prog, "u_mouse");
+    var mouseCur = [0.5, 0.5];
+    var mouseTarget = [0.5, 0.5];
+    hero.addEventListener("pointermove", function (e) {
+      mouseTarget = [e.clientX / window.innerWidth, 1 - e.clientY / window.innerHeight];
+    });
     var uC = [
       gl.getUniformLocation(prog, "u_c1"),
       gl.getUniformLocation(prog, "u_c2"),
@@ -140,8 +162,11 @@
     function frame(now) {
       if (visible && !document.hidden) {
         resize();
+        mouseCur[0] += (mouseTarget[0] - mouseCur[0]) * 0.04;
+        mouseCur[1] += (mouseTarget[1] - mouseCur[1]) * 0.04;
         gl.uniform2f(uRes, canvas.width, canvas.height);
         gl.uniform1f(uTime, (now - start) / 1000);
+        gl.uniform2f(uMouse, mouseCur[0], mouseCur[1]);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
       }
       if (!M.isReduced()) { requestAnimationFrame(frame); }

@@ -43,7 +43,7 @@ html[data-theme="c"] {
   --muted: #9aa3c7;
   --accent: #ffd447;
   --accent-ink: #191a2e;
-  --accent-2: #4ef0c0;
+  --accent-2: #4cc9f0;
   --accent-3: #ff5c8a; /* hero shader + token glows only — never text */
   --border: #34386b;
   --shadow: 5px 5px 0 rgba(0, 0, 0, 0.55);
@@ -60,7 +60,7 @@ html[data-theme="c"] {
   --font-pixel: "Press Start 2P", monospace;
   --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", Consolas, "SF Mono", monospace;
-  --diagram-line: #4ef0c0;
+  --diagram-line: #4cc9f0;
   --diagram-box: #232750;
   --diagram-ink: #eef0ff;
   --diagram-accent: #ffd447;
@@ -76,7 +76,7 @@ html[data-theme="b"] {
   --muted: #5b6270;
   --accent: #2456e6;
   --accent-ink: #ffffff;
-  --accent-2: #0e7c66;
+  --accent-2: #0b7285;
   --accent-3: #2456e6;
   --border: #e4e5ea;
   --shadow: 0 2px 12px rgba(20, 24, 40, 0.07);
@@ -93,11 +93,13 @@ html[data-theme="b"] {
   --diagram-line: #2456e6;
   --diagram-box: #eef1fb;
   --diagram-ink: #191c24;
-  --diagram-accent: #0e7c66;
+  --diagram-accent: #0b7285;
 }
 
 /* ---------- Base ---------- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+button { font: inherit; color: inherit; }
 
 html { scroll-behavior: smooth; }
 
@@ -384,15 +386,15 @@ html[data-theme="b"] .btn-primary:hover { box-shadow: 0 6px 18px rgba(20, 24, 40
 }
 
 .token.style-coin {
-  width: 72px;
-  height: 72px;
-  padding: 8px 6px;
+  width: 84px;
+  height: 84px;
+  padding: 10px 8px;
   border-radius: 50%;
   background: var(--accent);
   color: var(--accent-ink);
   border: 2px solid var(--ink);
   box-shadow: var(--shadow);
-  font-size: 8px;
+  font-size: 9px;
   line-height: 1.5;
 }
 
@@ -412,7 +414,6 @@ html[data-theme="c"] .marquee { box-shadow: inset 0 0 24px rgba(255, 212, 71, 0.
 .marquee-track {
   display: flex;
   align-items: center;
-  gap: 44px;
   width: max-content;
   will-change: transform;
 }
@@ -421,6 +422,7 @@ html[data-theme="c"] .marquee { box-shadow: inset 0 0 24px rgba(255, 212, 71, 0.
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  margin-right: 44px;
   font-family: var(--font-pixel);
   font-size: 11px;
   letter-spacing: 0.06em;
@@ -810,7 +812,7 @@ html[data-theme="b"] .stamp { color: var(--accent-2); border-color: var(--accent
   background: #000;
 }
 
-.crt-frame img { display: block; width: 100%; height: auto; }
+.crt-frame img { display: block; max-height: 210px; width: auto; max-width: 100%; margin: 0 auto; }
 
 .crt-frame .crt-screen::after {
   content: "";

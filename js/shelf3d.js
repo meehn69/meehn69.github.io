@@ -231,26 +231,30 @@ function initInner(THREE, opts) {
   }
 
   var api = {
+    /* Hard-reset choreography: every rapid-scroll race ends in a
+       deterministic state — nothing can be left stranded mid-flight. */
     goTo: function (next, prev) {
-      if (next === current) { placeInstant(next); current = next; return; }
-      current = next;
       killTweens();
+      current = next;
       cartridges.forEach(function (g, k) {
-        g.visible = Math.abs(k - next) <= 1;
+        var isComing = k === next;
+        var side = k < next ? -1 : 1;
+        tweens.forEach(function () {});
+        gsap.killTweensOf(g.position);
+        gsap.killTweensOf(g.rotation);
+        if (!isComing) {
+          g.visible = Math.abs(k - next) <= 1;
+          g.position.set(7 * side, 0, 0);
+          g.rotation.set(0, 0.9 * Math.PI * side, 0);
+        }
       });
-      var outgoing = cartridges[prev];
       var incoming = cartridges[next];
-      if (outgoing && outgoing !== incoming && outgoing.visible) {
-        tweens.push(gsap.to(outgoing.position, { x: -7, duration: 0.7, ease: "power2.in" }));
-        tweens.push(gsap.to(outgoing.rotation, { y: -0.9 * Math.PI, z: 0.15, duration: 0.7, ease: "power2.in" }));
-      }
-      if (incoming) {
-        var dir = prev <= next ? 1 : -1;
-        gsap.set(incoming.position, { x: 7 * dir, y: 0, z: 0 });
-        gsap.set(incoming.rotation, { y: 0.9 * Math.PI * dir, z: 0 });
-        tweens.push(gsap.to(incoming.position, { x: 0, duration: 0.7, ease: "power2.out", delay: 0.05 }));
-        tweens.push(gsap.to(incoming.rotation, { y: 0, z: 0, duration: 0.7, ease: "power2.out", delay: 0.05 }));
-      }
+      var dir = prev <= next ? 1 : -1;
+      incoming.visible = true;
+      gsap.set(incoming.position, { x: 7 * dir, y: 0, z: 0 });
+      gsap.set(incoming.rotation, { y: 0.9 * Math.PI * dir, z: 0 });
+      tweens.push(gsap.to(incoming.position, { x: 0, duration: 0.7, ease: "power2.out", delay: 0.05 }));
+      tweens.push(gsap.to(incoming.rotation, { y: 0, z: 0, duration: 0.7, ease: "power2.out", delay: 0.05 }));
     }
   };
 

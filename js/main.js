@@ -239,10 +239,10 @@
     if (groups) {
       SITE.skills.groups.forEach(function (group) {
         var block = el("div", "skill-group");
-        block.appendChild(el("span", "skill-label", group.label));
+        if (group.label) { block.appendChild(el("span", "skill-label", group.label)); }
         var chips = el("div", "chips");
         group.tags.forEach(function (tag) {
-          var btn = el("button", "chip" + (group.core ? " core" : ""));
+          var btn = el("button", "chip" + (group.core || tag.core ? " core" : ""));
           btn.type = "button";
           btn.setAttribute("aria-label", tag.label + " — " + tag.proof);
 
@@ -411,6 +411,23 @@
     if (li) { li.textContent = SITE.footer.linkedinLabel; li.href = SITE.footer.linkedinHref; }
   }
 
+  /* ---------- Chip fit: size each chip to its flipped proof face ---------- */
+  function fitChipHeights() {
+    document.querySelectorAll(".chip").forEach(function (chip) {
+      var back = chip.querySelector(".chip-face-back");
+      var inner = chip.querySelector(".chip-inner");
+      if (!back || !inner) { return; }
+      back.style.position = "static";
+      back.style.visibility = "hidden";
+      var h = back.offsetHeight;
+      back.style.position = "";
+      back.style.visibility = "";
+      inner.style.minHeight = Math.max(44, h) + "px";
+    });
+  }
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { try { fitChipHeights(); } catch (e) {} }); }
+  window.addEventListener("resize", function () { try { fitChipHeights(); } catch (e) {} });
+
   /* ---------- Reveal system ----------
      GSAP path: ScrollTrigger.batch over [data-reveal].
      Fallback path: .reveal + IntersectionObserver → .visible.
@@ -460,11 +477,15 @@
         once: true,
         onEnter: function () {
           var counter = { n: 0 };
+          var isDecimal = end % 1 !== 0;
           gsap.to(counter, {
             n: end,
             duration: 0.9,
-            ease: "steps(" + end + ")",
-            onUpdate: function () { node.textContent = String(Math.round(counter.n)) + suffix; }
+            ease: isDecimal ? "power1.in" : "steps(" + end + ")",
+            onUpdate: function () {
+              var v = counter.n;
+              node.textContent = (isDecimal ? v.toFixed(1) : String(Math.round(v))) + suffix;
+            }
           });
         }
       });
@@ -498,4 +519,5 @@
   try { initReveals(); } catch (e) {}
   try { initCountUps(); } catch (e) {}
   try { initStamps(); } catch (e) {}
+  try { fitChipHeights(); } catch (e) {}
 })();

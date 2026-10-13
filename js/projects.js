@@ -19,7 +19,7 @@
   var heading = document.getElementById("projects-heading");
   if (heading) { heading.textContent = P.heading; }
   var note = document.getElementById("projects-note");
-  if (note) { note.textContent = P.note; }
+  if (note) { note.textContent = P.note || ""; note.hidden = !P.note; }
 
   var stage = document.getElementById("proj-stage");
   var canvas = document.getElementById("proj-canvas");
@@ -236,11 +236,11 @@
       credits.appendChild(crtFrame(item));
     }
 
-    credits.appendChild(detailsBlock(item));
-
     if ((item.links || []).length) {
       credits.appendChild(linksRow(item));
     }
+
+    credits.appendChild(detailsBlock(item));
   }
 
   function counterText(n) {
