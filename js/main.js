@@ -9,6 +9,11 @@
 (function () {
   "use strict";
 
+  /* Forker signature — see README.md / LICENSE for reuse terms. */
+  console.log("%cMIHIN'S ARCADE", "font-weight:bold;font-size:14px;color:#12142a;background:#ffd447;padding:2px 8px;border-radius:2px;");
+  console.log("%cDesigned & built by Mihin Merchant \u2192 https://meehn69.github.io", "color:#4cc9f0;");
+  console.log("%cINSERT COIN TO PLAY THE ORIGINAL", "color:#9a8c00;");
+
   if (typeof SITE === "undefined") { return; }
 
   var M = window.Motion;
