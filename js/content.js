@@ -43,7 +43,7 @@ const SITE = {
     sub: "I build online multiplayer games in Unity — the gameplay, the UI, and the netcode that keeps players connected on real-world networks.",
     buttons: [
       { label: "VIEW PROJECTS", href: "#projects" },
-      { label: "EMAIL ME", href: "mailto:your.email@example.com" },
+      { label: "EMAIL ME", href: "mailto:mihinmerchant786@gmail.com" },
     ],
     tokens: [
       { label: "ADVANCED C#", style: "cart" },
@@ -339,11 +339,11 @@ const SITE = {
   contact: {
     heading: "CONTACT",
     line: "Recruiter? Email is fastest. Phone works too.",
-    email: "your.email@example.com",
-    phone: "+91 00000 00000",
-    phoneHref: "tel:+910000000000",
-    linkedin: "linkedin.com/in/your-profile",
-    linkedinHref: "https://www.linkedin.com/in/your-profile",
+    email: "mihinmerchant786@gmail.com",
+    phone: "+91 94265 78091",
+    phoneHref: "tel:",
+    linkedin: "linkedin.com/in/mihin-merchant-726a23229",
+    linkedinHref: "https://www.linkedin.com/in/mihin-merchant-726a23229",
     location: "Based in India.",
   },
 
@@ -376,8 +376,8 @@ const SITE = {
     ],
     attribution: "Game icons by game-icons.net (CC BY 3.0) · Fonts: Press Start 2P, Space Grotesk (SIL OFL) · three.js (MIT) · GSAP",
     restart: "INSERT COIN TO RESTART",
-    email: "your.email@example.com",
-    linkedinHref: "https://www.linkedin.com/in/your-profile",
+    email: "mihinmerchant786@gmail.com",
+    linkedinHref: "https://www.linkedin.com/in/mihin-merchant-726a23229",
     linkedinLabel: "LinkedIn",
   },
 };
