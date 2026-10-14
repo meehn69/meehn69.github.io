@@ -32,7 +32,7 @@
     try { sessionStorage.setItem("mm8_seen", "1"); } catch (e) {}
 
     function teardown() {
-      document.removeEventListener("keydown", key);
+      document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
       if (gate.parentNode) { gate.parentNode.removeChild(gate); }
       /* GATE-07: hero takes over (token burst + letter reveal). */
