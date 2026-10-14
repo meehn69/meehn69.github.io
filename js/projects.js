@@ -136,6 +136,41 @@
     return wrap;
   }
 
+  /* Mobile "pocket shelf": the card's cartridge label plate — accent plate,
+     notched corners, glyph, tech pips and the shared CART counter format,
+     mirroring the three.js label art so both paths read as the same object. */
+  function cartridgeLabel(item, i) {
+    var label = document.createElement("div");
+    label.className = "cart-label";
+
+    var idx = document.createElement("span");
+    idx.className = "cart-idx";
+    idx.textContent = counterText(i);
+    label.appendChild(idx);
+
+    var title = document.createElement("h3");
+    title.className = "cr-title";
+    title.textContent = item.title;
+    label.appendChild(title);
+
+    label.appendChild(glyphSvg(item.glyph));
+
+    var pips = document.createElement("span");
+    pips.className = "cart-pips";
+    (item.tech || []).forEach(function () {
+      pips.appendChild(document.createElement("i"));
+    });
+    label.appendChild(pips);
+
+    label.addEventListener("click", function () {
+      M.coin(); /* safePlay silences reduced motion; the tap is the iOS audio gesture */
+      if (M.hasGsap()) {
+        gsap.fromTo(label, { scale: 0.97 }, { scale: 1, duration: 0.35, ease: "back.out(3)", overwrite: true });
+      }
+    });
+    return label;
+  }
+
   function linksRow(item) {
     var row = document.createElement("div");
     row.className = "cr-links";
@@ -302,14 +337,11 @@
   /* ---------- mobile / fallback stack (Path C, also the SEO/SR structure) ---------- */
   function buildMobileStack() {
     mobile.innerHTML = "";
-    items.forEach(function (item) {
+    items.forEach(function (item, i) {
       var card = document.createElement("article");
       card.className = "proj-card";
 
-      var title = document.createElement("h3");
-      title.className = "cr-title";
-      title.textContent = item.title;
-      card.appendChild(title);
+      card.appendChild(cartridgeLabel(item, i));
 
       var meta = row("STUDIO", textNode("v", item.studio));
       card.appendChild(meta);
@@ -326,28 +358,46 @@
         card.appendChild(crtFrame(item));
       }
 
-      var list = document.createElement("ul");
-      item.bullets.forEach(function (b) {
-        var li = document.createElement("li");
-        li.textContent = b;
-        list.appendChild(li);
-      });
-      var panel = document.createElement("div");
-      panel.className = "details-panel";
-      panel.appendChild(list);
-      if (item.caption) {
-        panel.appendChild(Object.assign(document.createElement("p"), { className: "caption", textContent: item.caption }));
-      }
-      card.appendChild(panel);
-
-      if (item.id === "casino-suite" && diagramsTemplate) {
-        panel.appendChild(diagramsTemplate.content.cloneNode(true));
-      }
-
       if ((item.links || []).length) {
         card.appendChild(linksRow(item));
       }
+      card.appendChild(detailsBlock(item));
       mobile.appendChild(card);
+    });
+  }
+
+  /* ---------- mobile "pocket shelf" choreography (transform/opacity only) ----------
+     Entrance echoes the desktop cartridge flight at pocket scale; a scroll-
+     velocity swing keeps the shelf alive in the hand and always settles level.
+     Armed only when GSAP+ScrollTrigger exist and motion is preferred. */
+  function initMobileChoreo() {
+    var cards = Array.prototype.slice.call(mobile.children);
+    var swing = cards.map(function () { return null; });
+    cards.forEach(function (card, i) {
+      gsap.fromTo(card,
+        { x: 120, rotateY: 24, opacity: 0 },
+        {
+          x: 0, rotateY: 0, opacity: 1, duration: 0.65, ease: "power3.out",
+          scrollTrigger: { trigger: card, start: "top 86%", once: true },
+          onComplete: function () {
+            gsap.set(card, { clearProps: "transform" }); /* hand transform ownership to the swing */
+            swing[i] = gsap.quickTo(card, "rotateY", { duration: 0.5, ease: "power2.out" });
+          }
+        });
+    });
+    var settle = null;
+    ScrollTrigger.create({
+      trigger: mobile,
+      start: "top bottom",
+      end: "bottom top",
+      onUpdate: function (self) {
+        var v = Math.max(-10, Math.min(10, self.getVelocity() / 220));
+        swing.forEach(function (s) { if (s) { s(v); } });
+        clearTimeout(settle);
+        settle = setTimeout(function () {
+          swing.forEach(function (s) { if (s) { s(0); } });
+        }, 160);
+      }
     });
   }
 
@@ -482,6 +532,8 @@
 
     /* Path C: mobile / reduced-motion — vertical stack only. */
     stage.style.display = "none";
+    mobile.style.display = "block"; /* Path C always has content: desktop+reduced-motion has no CSS rule that reveals the stack */
+    if (!desktop && M.hasScrollTrigger()) { initMobileChoreo(); }
     if (hashIndex > -1) {
       var targetCard = mobile.children[hashIndex];
       if (targetCard) { M.scrollToEl(targetCard); }

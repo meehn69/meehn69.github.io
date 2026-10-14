@@ -859,7 +859,7 @@ html[data-theme="b"] .stamp { color: var(--accent-2); border-color: var(--accent
 .crt-lens img { position: absolute; display: block; width: 180%; max-width: none; height: auto; }
 
 /* Mobile / fallback stack */
-.proj-mobile { display: none; }
+.proj-mobile { display: none; perspective: 1100px; }
 
 .proj-card {
   background: var(--surface);
@@ -872,8 +872,28 @@ html[data-theme="b"] .stamp { color: var(--accent-2); border-color: var(--accent
 }
 
 .proj-card .cr-title { font-size: 1.15rem; margin-bottom: 8px; }
-.proj-card .details-panel { height: auto; clip-path: none; opacity: 1; }
 .proj-card .cr-links { margin: 12px 0 0; }
+
+/* Cartridge label plate (mobile "pocket shelf") — the .token.style-cart
+   notched DNA; palette comes from the theme tokens, so it skins for free. */
+.cart-label {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 18px 16px 14px;
+  margin: -22px -24px 18px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-bottom: 4px solid var(--ink);
+  clip-path: polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px));
+  cursor: pointer;
+}
+.cart-idx { font-family: var(--font-pixel); font-size: 9px; letter-spacing: 0.06em; opacity: 0.72; }
+.cart-label .cr-title { font-size: 1.35rem; margin: 0; color: inherit; }
+.cart-label svg { width: 44px; height: 44px; color: var(--accent-ink); }
+.cart-pips { display: flex; gap: 6px; }
+.cart-pips i { width: 8px; height: 8px; background: currentColor; }
 
 /* ---------- Contact — magnetic dock ---------- */
 .dock {
